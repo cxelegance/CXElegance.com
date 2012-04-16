@@ -1,0 +1,6 @@
+/* CSS/LESS browser exceptions/conditions, by CXElegance */
+
+#page3 .row>div>div>div:nth-child(2) {
+	/* relying on conditional css here */
+	[if Webkit] letter-spacing: -0.09em !important; /* having a problem with Chrome */
+}
