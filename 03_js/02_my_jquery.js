@@ -25,10 +25,9 @@ var g_viewport_height_extra = 100; // how many extra pixels would you like in th
 var g_page_scroll_speed = 1200; // what speed should JQuery animate the page scroll?
 var g_popup_content_area_border_width = 4; // pixels; static, set same as in CSS
 var g_popup_topdock_height = 50; // pixels; static, set same as in CSS
+var g_popup_content_height_adjustor = 82; // how many pixels to subtract to get bottom margin right, keeping in mind margins and paddings
 var g_popup_toggle_speed = 750; // what speed should JQuery animate the popup appear/disappear?
 var g_scaling_adjustor = 0.22; // when scalable items are scaled down, we have an adjustor amount due to the content area being a percentage of the body
-var g_popup_content_height_adjustor = 82; // how many pixels to subtract to get bottom margin right, keeping in mind margins and paddings
-var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
 var g_popup_scroll_amt = 25; // amount of pixels to jump each interval
 var g_popup_scroll_int = 50; // number of milliseconds per interval
 var g_make_sure_scrollbar = 2; // how many pix to make sure there's a scrollbar when popup is up; browsers acting funny if no scrollbar
@@ -93,30 +92,11 @@ $( document ).ready( function () {
 		$( this ).data( "scrollTop", selected.scrollTop() );
 		g_scrollID = self.setInterval( "scroll_popup( '#popup_down' , " + g_popup_scroll_amt.toString() + " )" , g_popup_scroll_int );
 	});
-/*
-	$( "#popup_content" ).mousedown( function ( event ) {
-		$( this )
-			.data( "down" , true )
-			.data( "Y" , event.clientY )
-			.data( "scrollTop", this.scrollTop );
-		// return false to avoid selecting text and dragging links within the scroll window
-		return false;
-	});
 
-	$( "#popup_content" ).mouseup( function ( event ) {
-		$( this ).data( "down" , false );
-	});
-
-	$( "#popup_content" ).mousemove( function ( event ) {
-		if ( $( this ).data( "down" ) == true ) {
-			this.scrollTop = $( this ).data( "scrollTop" ) + $( this ).data( "Y" ) - event.clientY;
+	$( window ).scroll( function () {
+		if ( g_popup_visible ) {
+			$( "#popup_content" ).scrollTop( $( this ).scrollTop() );
 		}
-	});
-*/
-	$( "#popup_content" ).mousewheel( function ( event, amt ) {
-		// using mousewheel plugin
-		// amt is amount of scroll from mousewheel
-		this.scrollTop -= ( amt * g_mousewheel_speed );
 	});
 
 	$( "#popup_next" ).click ( function () {
@@ -254,6 +234,7 @@ function goto_URL_place () {
 		if ( !g_popup_visible ) {
 			toggle_popup_visible ();
 		}
+		set_page_heights ( false );
 		page_title += " - " + g_current_URL_place;
 	}
 	// change the page title
@@ -388,9 +369,10 @@ function set_page_heights ( bool_on ) {
 		$ ( ".page" ).height ( Math.max ( g_viewport_height_min , g_viewport_height + g_viewport_height_extra ) );
 	}
 	else {
-		// we just want the page height to be the height of the viewport
+		// we want the page height to be the height of the viewport
 		// $ ( ".page" ).height ( Math.max ( g_viewport_height_min , g_viewport_height ) );
-		$ ( ".page" ).height ( g_viewport_height + g_make_sure_scrollbar );
+		// $ ( ".page" ).height ( g_viewport_height + g_make_sure_scrollbar );
+		$ ( ".page" ).height ( Math.max ( $ ( "#popup_content" )[0].scrollHeight + ( 2 * g_popup_content_area_border_width ) + g_popup_topdock_height + g_popup_content_height_adjustor , g_viewport_height + g_make_sure_scrollbar ) );
 	}
 }
 
