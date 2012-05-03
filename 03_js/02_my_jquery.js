@@ -35,6 +35,7 @@ var g_guiding_links_frequency = 4000; // number of milliseconds per interval
 var g_guiding_links_speed = 2000; // number of milliseconds to complete animation
 var g_guiding_link_color = "#FFBF66"
 var g_website_title_base = "CXElegance";
+var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
 
 $( document ).ready( function () {
 
@@ -117,8 +118,8 @@ $( document ).ready( function () {
 });
 
 function animate_guiding_links () {
-	$( "#next,#back,#linky_creative" ).animate ( { backgroundColor : g_guiding_link_color } , g_guiding_links_speed , function () {
-		$( "#next,#back,#linky_creative" ).removeAttr ( "style" ).animate ();
+	$( "#next,#back,#linky00_creative" ).animate ( { backgroundColor : g_guiding_link_color } , g_guiding_links_speed , function () {
+		$( "#next,#back,#linky00_creative" ).removeAttr ( "style" ).animate ();
 	 });
 };
 

@@ -8,41 +8,45 @@
 <!-- Welcome to CXElegance.com, please feel free to view the code,
 	if you see spots that could be more elegant, please let me know! -->
 
-<!-- to do list
+<!-- TO DO LIST
 
-fix portfolio image width discrepancy (chrome firefox)
-on super narrow pages, fix portfolio images and title extending past, causing scrollbar
-stop scalable things shrinking to nothing on IPhone
-replace page #'s with real text page names (carefully, javascript)
-add real anchor links for when javascript is unavail (but prevent default)
+- fix portfolio image width discrepancy (chrome firefox)
+- on super narrow pages, fix portfolio images and title extending past, causing scrollbar
+- stop scalable things shrinking to nothing on IPhone
+- replace page #'s with real text page names (carefully, javascript)
+- add real anchor links for when javascript is unavail (but prevent default)
 	consider adding hovers for non-touch users (notebooks, desktops)
-consider minifying css/js/html
-w3c validate css/jscript (HTML is valid now)
-load bg and img images after page is ready and shown (do this in jquery document ready)
-get on IPhone/Android/Opera and test popup fixed-div scrolling
-end of to do list -->
+- consider minifying css/js/html (it's being sent compressed now, which is good)
+- w3c validate css/jscript (HTML is valid now)
+- load bg and img images after page is ready and shown (do this in jquery document ready)
+- get on IPhone/Android/Opera and test popup fixed-div scrolling
+
+end of TO DO LIST -->
 
 <meta name="description" content="Web development and technical services, including data organization, websites, content management, and application development.">
-<meta name="keywords" content="JQuery, PHP, OOP, HTML, CSS, website, webpage, JavaScript, backups, data, organization, architecture, CMS, content, management, technical, freelance, services">
+<meta name="keywords" content="jQuery, PHP, OOP, HTML, CSS, XML, Git, website, webpage, JavaScript, backups, data, organization, architecture, CMS, content, management, technical, freelance, services">
 <meta name="author" content="Jesse CXElegance">
 
 <!-- ensure smartphones don't try to zoom in automatically -->
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
 <!-- offer a nice smartphone icon - 158 × 158 pixels -->
 	<link rel="apple-touch-icon" href="01_pics/12_iphone.png">
+
 <!-- load my google fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz|Oswald|Lobster' rel='stylesheet' type='text/css'>
+
 <!-- favicon -->
 	<link rel="icon" href="favicon.png" sizes="16x16" type="image/png">
 
-<!-- load the JQuery code -->
-	<!-- I am having difficulty getting compression on my site, so jquery and jqueryUI are now being downloaded directly from jquery, compressed, faster -->
+<!-- load the jQuery code -->
+	<!-- I am having difficulty getting compression on my site, so jQuery and jQueryUI are now being downloaded directly from jQuery, compressed, faster -->
 	<style type="text/css">@import "http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css";</style><!-- <style type="text/css">@import "00_jquery/css/custom-theme/jquery-ui-1.8.16.custom.css";</style> -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script><!-- <script type="text/javascript" src="00_jquery/js/jquery-1.6.4.min.js"></script> -->
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script><!-- <script type="text/javascript" src="00_jquery/js/jquery-ui-1.8.16.custom.min.js"></script> -->
 	<script type="text/javascript" src="00_jquery/JScrollPane/jquery.mousewheel.js"></script>
 
-<!-- load my custom JQuery/Javascript code -->
+<!-- load my custom jQuery/JavaScript code -->
 	<script type="text/javascript" src="03_js/02_my_jquery.js"></script>
 
 <!-- load my custom CSS LESS -->
@@ -54,10 +58,10 @@ end of to do list -->
 <!-- alternate stylesheet, blank/simple -->
 	<link rel="alternate stylesheet" type="text/css" href="02_css/13_rescue.css" title="help">
 
-<!-- load LESS javascript code -->
+<!-- load LESS JavaScript code -->
 	<script type="text/javascript" src="00_jquery/LESS/less-1.2.2.min.js"></script>
 
-<!-- title will be changed by javascript -->
+<!-- title will be changed by JavaScript -->
 	<title>CXElegance</title>
 
 </head>
@@ -108,7 +112,7 @@ end of to do list -->
 				<!-- horizontal line -->
 			</div>
 			<div id="popup_content" class="bordered">
-				<!-- javascript will populate this area -->
+				<!-- JavaScript will populate this area -->
 			</div>
 		</div>
 
@@ -991,7 +995,7 @@ end of to do list -->
 					<ul>
 						<li>HTML</li>
 						<li>CSS / LESS</li>
-						<li>JQuery / Javascript</li>
+						<li>jQuery / JavaScript</li>
 						<li>PHP</li>
 						<li>XML</li>
 						<li>OOP</li>
@@ -1310,7 +1314,7 @@ end of to do list -->
 
 				<div id="portfolio_1c" class="detail">
 					A blog just didn't seem like the right solution.  So I made one, using simple things like XML.  I created simple classes for cartoons and cartoon lists, each of these classes were able to load/save data via PHP DOM XML, and they held and operated on their data in simple arrays.  With XML, the RSS feed was super easy.
-					<p>Marzio didn't need fancy in the back-end; I made very simple webpages for adding, modifying, deleting content.  And I bullet-proofed the system using Javascript form/data checking before sending to PHP.</p>
+					<p>Marzio didn't need fancy in the back-end; I made very simple webpages for adding, modifying, deleting content.  And I bullet-proofed the system using JavaScript form/data checking before sending to PHP.</p>
 					<p>Also, I created some fun ways to navigate through the cartoon collection, while keeping the interface simple and uncluttered.</p>
 				</div>
 
@@ -1340,7 +1344,7 @@ end of to do list -->
 			<div class="detail_3">
 
 				<div id="portfolio_2c" class="detail">
-					Thingamablog.  It was simple, worked across different operating systems on local machines, and did everything I needed it to.  Add a little Javascript for some extra flavour, and voila!  A simple solution that Aaron can easily use.
+					Thingamablog.  It was simple, worked across different operating systems on local machines, and did everything I needed it to.  Add a little JavaScript for some extra flavour, and voila!  A simple solution that Aaron can easily use.
 				</div>
 
 			</div>
@@ -1398,7 +1402,7 @@ end of to do list -->
 			<div class="detail_3">
 
 				<div id="portfolio_4c" class="detail">
-					This is not the first page on the Internet to do this - but all the content is in one html file... how cool!  I used CSS to organize the data, and JQuery picks out the data as required, while animating the transitions to different sections.  If you took away all the JQuery and CSS, you'd see all the information in a simple, long page, and Google can index sections/links via hash tags.
+					This is not the first page on the Internet to do this - but all the content is in one html file... how cool!  I used CSS to organize the data, and jQuery picks out the data as required, while animating the transitions to different sections.  If you took away all the jQuery and CSS, you'd see all the information in a simple, long page, and Google can index sections/links via hash tags.
 					<p>Oh, and this site displays reasonably well on all sizes, from mobile to big screen, with very little trickery - essentially just letting the browser wrap content to the next line when things get narrow!</p>
 				</div>
 
