@@ -7,7 +7,7 @@
 // the following global vars are just initializations
 var g_viewport_width = 0; // this will get set properly on document ready
 var g_viewport_height = 0; // this will get set properly on document ready
-var g_viewport_height_min = 0 // this will be set on document ready, it is the value of the tallest page
+var g_viewport_height_min = 0; // this will be set on document ready, it is the value of the tallest page
 var g_hidden = false; // are the hideable elements hidden?
 var g_popup_left = 0; // will be set properly on resize and doc ready
 var g_popup_content_area_width = 0; // will be set on resize and doc ready
@@ -33,7 +33,7 @@ var g_popup_scroll_int = 50; // number of milliseconds per interval
 var g_make_sure_scrollbar = 2; // how many pix to make sure there's a scrollbar when popup is up; browsers acting funny if no scrollbar
 var g_guiding_links_frequency = 4000; // number of milliseconds per interval
 var g_guiding_links_speed = 2000; // number of milliseconds to complete animation
-var g_guiding_link_color = "#FFBF66"
+var g_guiding_link_color = "#FFBF66";
 var g_website_title_base = "CXElegance";
 var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
 
