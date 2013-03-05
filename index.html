@@ -5,11 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- Welcome to CXElegance.com, please feel free to view the code,
-	if you see spots that could be more elegant, please let me know! -->
+<!-- Welcome to CXElegance.com, at this point I'm embarrassed that you
+	are looking at this code, I will be completely overhauling it -->
 
 <!-- TO DO LIST
 
+* this website needs a complete overhaul
+* a COMPLETE REDO of JavaScript is underway (parts of it will be public at https://github.com/cxelegance/one-page-scroller)
+- get rid of div scrolling, mousewheeling, etc.
+- make better use of HTML5 data-attributes
+- get mouse pointers, i.e. use <a> links for links and preventDefault()
 - fix portfolio image width discrepancy (chrome firefox)
 - on super narrow pages, fix portfolio images and title extending past, causing scrollbar
 - stop scalable things shrinking to nothing on IPhone
@@ -28,7 +33,7 @@ end of TO DO LIST -->
 <meta name="author" content="Jesse CXElegance">
 
 <!-- ensure smartphones don't try to zoom in automatically -->
-	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- offer a nice smartphone icon - 158 × 158 pixels -->
 	<link rel="apple-touch-icon" href="01_pics/12_iphone.png">
@@ -42,9 +47,9 @@ end of TO DO LIST -->
 <!-- load the jQuery code -->
 	<!-- I am having difficulty getting compression on my site, so jQuery and jQueryUI are now being downloaded directly from jQuery, compressed, faster -->
 	<style type="text/css">@import "http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css";</style><!-- <style type="text/css">@import "00_jquery/css/custom-theme/jquery-ui-1.8.16.custom.css";</style> -->
-	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script><!-- <script type="text/javascript" src="00_jquery/js/jquery-1.6.4.min.js"></script> -->
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script><!-- <script type="text/javascript" src="00_jquery/js/jquery-1.6.4.min.js"></script> -->
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script><!-- <script type="text/javascript" src="00_jquery/js/jquery-ui-1.8.16.custom.min.js"></script> -->
-	<script type="text/javascript" src="00_jquery/JScrollPane/jquery.mousewheel.js"></script>
+	<!-- <script type="text/javascript" src="00_jquery/JScrollPane/jquery.mousewheel.js"></script> -->
 
 <!-- load my custom jQuery/JavaScript code -->
 	<script type="text/javascript" src="03_js/02_my_jquery.js"></script>

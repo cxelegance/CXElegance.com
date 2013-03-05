@@ -35,7 +35,7 @@ var g_guiding_links_frequency = 4000; // number of milliseconds per interval
 var g_guiding_links_speed = 2000; // number of milliseconds to complete animation
 var g_guiding_link_color = "#FFBF66";
 var g_website_title_base = "CXElegance";
-var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
+//var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
 
 $( document ).ready( function () {
 
