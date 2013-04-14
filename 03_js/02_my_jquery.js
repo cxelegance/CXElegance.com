@@ -54,19 +54,22 @@ $(function () {
 		goto_URL_place ();
 	});
 
-	$( ".linky" ). click ( function () {
+	$( ".linky" ). click ( function (event) {
+		event.preventDefault ();
 		cancel_window_timer ( g_animateID );
-		// strip the "linky##_" from the link
+		// strip the "#" from the link
 		// then go to the link
-		follow_link ( $( this ).attr( "id" ).substr( 8 ) );
+		follow_link ( $( this ).attr( "href" ).substr( 1 ) );
 	});
 
-	$( "#next" ).click ( function () { 
+	$( "#next" ).click ( function (event) {
+		event.preventDefault ();
 		cancel_window_timer ( g_animateID );
 		shift_page( 1 );
 	});
 
 	$( "#back" ).click ( function () {
+		event.preventDefault ();
 		cancel_window_timer ( g_animateID );
 		shift_page( -1 );
 	});
@@ -119,8 +122,8 @@ $(function () {
 });
 
 function animate_guiding_links () {
-	$( "#next,#back,#linky00_creative" ).animate ( { backgroundColor : g_guiding_link_color } , g_guiding_links_speed , function () {
-		$( "#next,#back,#linky00_creative" ).removeAttr ( "style" ).animate ();
+	$( "#next,#back,a.linky" ).animate ( { backgroundColor : g_guiding_link_color } , g_guiding_links_speed , function () {
+		$( "#next,#back,a.linky" ).removeAttr ( "style" ).animate ();
 	 });
 };
 

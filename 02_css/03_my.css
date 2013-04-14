@@ -21,6 +21,16 @@ body,html {
 body {
 	font-size: 0.625em; /* 0.625 em x 16 px/em = 10 px  ... should be 16 px/em... this is for matching Gimp */
 }
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a.linky {
+	display: block;
+}
+
 #topdock {
 	width: 100%;
 	position: fixed;
@@ -28,7 +38,7 @@ body {
 	background-color: @color_dirty_ink;
 	z-index: 2;
 }
-.topdock_text {
+a.topdock_text {
 	color: @color_my_white; /* .color_my_white */
 	padding: 4px 5px;
 	margin: 2px 1px;
@@ -88,7 +98,7 @@ body {
 	width: 2%; /* this shall be calculated on resize */
 	height: 3px;
 }
-.row_content{
+.row_content, a.row_content {
 	display: inline-block;
 	padding: 15px 0px;
 }
@@ -206,7 +216,7 @@ body {
 #topdock>div>.floatright>.topdock_text {
 	padding: 4px 13px 19px 10px;
 }
-#linky_cx {
+a.linky[href="#cx"] { 
 	position: relative;
 	top: 17px;
 }
@@ -299,7 +309,7 @@ body {
 			.font_oswald;
 			.font_size_21;
 		}
-		>div {
+		>a.linky {
 			margin-left: 45%;
 			display: inline-block;
 			>span {
@@ -375,7 +385,7 @@ body {
 			font-size: 1.3em; /* 13px */
 			padding: 7px 0px 7px 0px;
 		}
-		>div:nth-child(4) {
+		>a.linky {
 			text-align: right;
 			>span {
 				/* the read more text */
@@ -516,7 +526,7 @@ body {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>div:nth-child(2) {
+				>a.linky {
 					/* "read more" link */
 					color: @color_my_white;
 				}
@@ -551,7 +561,7 @@ body {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>div:nth-child(2) {
+				>a.linky {
 					/* "read more" link */
 					color: @color_wispy_clouds;
 				}
@@ -586,7 +596,7 @@ body {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>div:nth-child(2) {
+				>a.linky {
 					/* "read more" link */
 					color: @color_wispy_clouds;
 				}
@@ -621,7 +631,7 @@ body {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>div:nth-child(2) {
+				>a.linky {
 					/* "read more" link */
 					color: @color_bridal_tuesday;
 				}

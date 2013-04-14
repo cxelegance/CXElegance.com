@@ -20,18 +20,17 @@ end of VERSION -->
 * a COMPLETE REDO of JavaScript is underway
 - get rid of div scrolling, mousewheeling, etc.
 - make better use of HTML5 data-attributes
-- get mouse pointers, i.e. use <a> links for links and preventDefault()
 - fix portfolio image width discrepancy (chrome firefox)
 - on super narrow pages, fix portfolio images and title extending past, causing scrollbar
 - stop scalable things shrinking to nothing on IPhone
 	or get rid of scaling, because also buggy on Android 2.2
 - replace page #'s with real text page names (carefully, javascript)
-- add real anchor links for when javascript is unavail (but prevent default)
 - consider minifying css/js/html (it's being sent compressed now, which is good)
 - w3c validate css/jscript/HTML
 - load bg and img images after page is ready and shown (do this in jquery document ready)
 - get rid of pop up fixed div, implement new solution that is more touch screen/Android/IOS friendly
 - get rid of jQueryUI, currently being used for method: effect()
+- consider replacing CSS nth-childs with more specific selectors
 
 end of TO DO LIST -->
 
@@ -81,14 +80,14 @@ end of TO DO LIST -->
 	<div id="topdock" class="font_yanone">
 		<div class="centered">
 			<div class="floatright">
-				<span id="back" class="topdock_text bordered">&lt;&lt;</span>
-				<span id="next" class="topdock_text bordered">&gt;&gt;</span>
+				<a id="back" href="#" class="topdock_text bordered">&lt;&lt;</a>
+				<a id="next" href="#" class="topdock_text bordered">&gt;&gt;</a>
 			</div>
 			<div class="floatleft">
-				<span id="linky00_" class="topdock_text bordered linky">&lt;home&gt;</span>
-				<span id="linky01_contact" class="topdock_text bordered hideable linky">&lt;contact&gt;</span>
-				<span id="linky01_services" class="topdock_text bordered hideable linky">&lt;services&gt;</span>
-				<span id="linky01_page4" class="topdock_text bordered hideable linky">&lt;portfolio&gt;</span>
+				<a href="#" class="topdock_text bordered linky">&lt;home&gt;</a>
+				<a href="#contact" class="topdock_text bordered hideable linky">&lt;contact&gt;</a>
+				<a href="#services" class="topdock_text bordered hideable linky">&lt;services&gt;</a>
+				<a href="#page4" class="topdock_text bordered hideable linky">&lt;portfolio&gt;</a>
 			</div>
 			<div class="clearfloat">
 			</div>
@@ -103,14 +102,14 @@ end of TO DO LIST -->
 
 		<div id="popup_topdock" class="font_yanone">
 			<div class="floatright">
-				<span id="popup_up" class="topdock_text bordered">&lt;</span>
-				<span id="popup_down" class="topdock_text bordered">&gt;</span>
-				<span id="popup_back" class="topdock_text bordered hideable">&lt;&lt;</span>
-				<span id="popup_next" class="topdock_text bordered hideable">&gt;&gt;</span>
-				<span id="popup_close" class="topdock_text bordered">&gt;&lt;</span>
+				<a id="popup_up" class="topdock_text bordered">&lt;</a>
+				<a id="popup_down" class="topdock_text bordered">&gt;</a>
+				<a id="popup_back" class="topdock_text bordered hideable">&lt;&lt;</a>
+				<a id="popup_next" class="topdock_text bordered hideable">&gt;&gt;</a>
+				<a id="popup_close" class="topdock_text bordered">&gt;&lt;</a>
 			</div>
 			<div class="floatleft">
-				<span id="linky01_" class="linky topdock_text bordered">&lt;home&gt;</span>
+				<a href="#" class="linky topdock_text bordered">&lt;home&gt;</a>
 			</div>
 			<div class="clearfloat">
 			</div>
@@ -141,24 +140,24 @@ end of TO DO LIST -->
 
 				<div id="row1" class="row centered bordered font_yanone">
 
-					<div id="linky00_creative" class="bordered row_content linky">
+					<a href="#creative" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>creative<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_fun" class="bordered row_content hideable linky">
+					<a href="#fun" class="bordered row_content hideable linky">
 						<span class="linkstyle">&lt;</span>fun<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_reliable" class="bordered row_content hideable linky">
+					<a href="#reliable" class="bordered row_content hideable linky">
 						<span class="linkstyle">&lt;</span>reliable<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_proactive" class="bordered row_content hideable linky">
+					<a href="#proactive" class="bordered row_content hideable linky">
 						<span class="linkstyle">&lt;</span>proactive<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 
 				</div>
 
@@ -176,49 +175,49 @@ end of TO DO LIST -->
 					</div>
 					<div class="bordered row_content font_oswald">
 						<div>web and technical services focusing on</div>
-						<div id="linky00_cx" class="bordered linky"><span class="linkstyle">&lt;</span>the Client eXperience<span class="linkstyle">&gt;</span></div>
+						<a href="#cx" class="bordered linky"><span class="linkstyle">&lt;</span>the Client eXperience<span class="linkstyle">&gt;</span></a>
 					</div>
 
 				</div>
 
 				<div id="row3" class="row centered bordered font_yanone">
 
-					<div id="linky00_bio" class="bordered row_content linky">
+					<a href="#bio" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>bio<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_services" class="bordered row_content linky">
+					<a href="#services" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>services<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_contact" class="bordered row_content linky">
+					<a href="#contact" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>contact<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_page2" class="bordered row_content linky">
+					<a href="#page2" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>testimonials<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 
 				</div>
 
 				<div id="row4" class="row centered bordered font_yanone">
 
-					<div id="linky00_page3" class="bordered row_content linky">
+					<a href="#page3" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>resum&eacute;<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_page4" class="bordered row_content linky">
+					<a href="#page4" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>portfolio<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 					<div class="hideable bordered row_spacer">
 					</div>
-					<div id="linky00_toolkit" class="bordered row_content linky">
+					<a href="#toolkit" class="bordered row_content linky">
 						<span class="linkstyle">&lt;</span>toolkit<span class="linkstyle">&gt;</span>
-					</div>
+					</a>
 
 				</div>
 
@@ -247,9 +246,9 @@ end of TO DO LIST -->
 				<div class="bordered row_content">
 					<div>
 						<span>&quot;[a] professional who makes his clients a top priority.&quot;</span>
-						<div id="linky00_testimonial1" class="linky bordered">
+						<a href="#testimonial1" class="linky bordered">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -257,9 +256,9 @@ end of TO DO LIST -->
 				<div class="bordered row_content">
 					<div>
 						<span>&quot;I look forward to working with him again...&quot;</span>
-						<div id="linky00_testimonial2" class="linky bordered">
+						<a href="#testimonial2" class="linky bordered">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -274,9 +273,9 @@ end of TO DO LIST -->
 				<div class="bordered row_content">
 					<div>
 						<span>&quot;...makes searching for old data much faster...&quot;</span>
-						<div id="linky00_testimonial3" class="linky bordered">
+						<a href="#testimonial3" class="linky bordered">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -284,9 +283,9 @@ end of TO DO LIST -->
 				<div class="bordered row_content">
 					<div>
 						<span>{insert your testimonial here!}</span>
-						<div id="linky00_testimonial4" class="linky bordered">
+						<a href="#testimonial4" class="linky bordered">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -327,9 +326,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							CXElegance
 						</div>
-						<div id="linky00_resume1" class="bordered linky">
+						<a href="#resume1" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -345,9 +344,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Salvation Army
 						</div>
-						<div id="linky00_resume2" class="bordered linky">
+						<a href="#resume2" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -363,9 +362,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Wellington Library
 						</div>
-						<div id="linky00_resume3" class="bordered linky">
+						<a href="#resume3" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -381,9 +380,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Fujitsu: LSA
 						</div>
-						<div id="linky00_resume5" class="bordered linky">
+						<a href="#resume5" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -399,9 +398,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							DIA
 						</div>
-						<div id="linky00_resume6" class="bordered linky">
+						<a href="#resume6" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -417,9 +416,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Fujitsu: MOJ
 						</div>
-						<div id="linky00_resume4" class="bordered linky">
+						<a href="#resume4" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -442,9 +441,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Canada, NZ, Aus
 						</div>
-						<div id="linky00_resume7" class="bordered linky">
+						<a href="#resume7" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -460,9 +459,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							SNC-Lavalin
 						</div>
-						<div id="linky00_resume8" class="bordered linky">
+						<a href="#resume8" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -478,9 +477,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Kelowna Software
 						</div>
-						<div id="linky00_resume9" class="bordered linky">
+						<a href="#resume9" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -496,9 +495,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Cenadex Software
 						</div>
-						<div id="linky00_resume10" class="bordered linky">
+						<a href="#resume10" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -514,9 +513,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							London Drugs
 						</div>
-						<div id="linky00_resume11" class="bordered linky">
+						<a href="#resume11" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -532,9 +531,9 @@ end of TO DO LIST -->
 						<div class="bordered">
 							Sport Chek
 						</div>
-						<div id="linky00_resume12" class="bordered linky">
+						<a href="#resume12" class="bordered linky">
 							<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div class="hideable bordered row_spacer">
@@ -585,9 +584,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								a content management system for cartoons, selling and promotion
 							</div>
-							<div id="linky00_portfolio_1a" class="bordered linky">
+							<a href="#portfolio_1a" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -598,9 +597,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								daily correspondence, documentation, and excellent training and guidance
 							</div>
-							<div id="linky00_portfolio_1b" class="bordered linky">
+							<a href="#portfolio_1b" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -611,9 +610,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								simple custom blog - cartoon OOP class and XML data storage
 							</div>
-							<div id="linky00_portfolio_1c" class="bordered linky">
+							<a href="#portfolio_1c" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -665,9 +664,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								a way to show new content in an old, Flash-based site
 							</div>
-							<div id="linky00_portfolio_2a" class="bordered linky">
+							<a href="#portfolio_2a" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -678,9 +677,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								worked with client on-site; joint planning, joint design
 							</div>
-							<div id="linky00_portfolio_2b" class="bordered linky">
+							<a href="#portfolio_2b" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -691,9 +690,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								a simple blog that appears to be part of original site
 							</div>
-							<div id="linky00_portfolio_2c" class="bordered linky">
+							<a href="#portfolio_2c" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -745,9 +744,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								"video/photo of the day" to be automated
 							</div>
-							<div id="linky00_portfolio_3a" class="bordered linky">
+							<a href="#portfolio_3a" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -758,9 +757,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								pulled through after hours while occupied full-time with other work
 							</div>
-							<div id="linky00_portfolio_3b" class="bordered linky">
+							<a href="#portfolio_3b" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -771,9 +770,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								simply use Youtube feed!
 							</div>
-							<div id="linky00_portfolio_3c" class="bordered linky">
+							<a href="#portfolio_3c" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -825,9 +824,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								a portfolio site offering a cool user experience
 							</div>
-							<div id="linky00_portfolio_4a" class="bordered linky">
+							<a href="#portfolio_4a" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -838,9 +837,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								myself and I enjoy working together!
 							</div>
-							<div id="linky00_portfolio_4b" class="bordered linky">
+							<a href="#portfolio_4b" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 					<div class="bordered">
@@ -851,9 +850,9 @@ end of TO DO LIST -->
 							<div class="bordered">
 								let CSS organize the data in one HTML file
 							</div>
-							<div id="linky00_portfolio_4c" class="bordered linky">
+							<a href="#portfolio_4c" class="bordered linky">
 								<span><span class="linkstyle">&lt;</span>read more<span class="linkstyle">&gt;</span></span>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>
