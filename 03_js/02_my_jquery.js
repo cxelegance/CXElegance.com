@@ -1,7 +1,8 @@
+/*
 <?php
     include ($_SERVER['DOCUMENT_ROOT'] . "/compress.php");
 ?>
-
+*/
 // JQuery and Javascript code by CXElegance.com
 
 // the following global vars are just initializations
@@ -37,7 +38,7 @@ var g_guiding_link_color = "#FFBF66";
 var g_website_title_base = "CXElegance";
 //var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
 
-$( document ).ready( function () {
+$(function () {
 
 	$( ".always_hidden" ).addClass( "hidden" );
 
