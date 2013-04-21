@@ -42,16 +42,23 @@ $(function () {
 
 	$( ".always_hidden" ).addClass( "hidden" );
 
+	$('body').CXEpage ({
+		scrollSpeed: 700,
+		pages: $('.page'),
+		details: $('.detail'),
+		scrollBody: $('body, html')
+	});
+
 	g_animateID = self.setInterval( "animate_guiding_links ()" , g_guiding_links_frequency );
 
 	// our first page load is similar to a page resize
 		viewport_size_changed ();
-		initial_URL_place ();
-		goto_URL_place ();
+		//\initial_URL_place ();
+		//\goto_URL_place ();
 
 	$( window ).resize( function() {
 		viewport_size_changed ();
-		goto_URL_place ();
+		//\goto_URL_place ();
 	});
 
 	$( ".linky" ). click ( function (event) {
@@ -59,19 +66,31 @@ $(function () {
 		cancel_window_timer ( g_animateID );
 		// strip the "#" from the link
 		// then go to the link
-		follow_link ( $( this ).attr( "href" ).substr( 1 ) );
+		//\follow_link ( $( this ).attr( "href" ).substr( 1 ) );
+		$('body').CXEpage ('goTo', {
+			page: {
+				URL: $(this).attr ('href').substr (1)
+			},
+			callback: function () {console.log ('linky was clicked and actioned');}
+		});
 	});
 
 	$( "#next" ).click ( function (event) {
 		event.preventDefault ();
 		cancel_window_timer ( g_animateID );
-		shift_page( 1 );
+		//\shift_page( 1 );
+		$('body').CXEpage ('nextPage', {
+			callback: function () {console.log ('next was clicked and actioned');}
+		});
 	});
 
-	$( "#back" ).click ( function () {
+	$( "#back" ).click ( function (event) {
 		event.preventDefault ();
 		cancel_window_timer ( g_animateID );
-		shift_page( -1 );
+		//\shift_page( -1 );
+		$('body').CXEpage ('prevPage', {
+			callback: function () {console.log ('back was clicked and actioned');}
+		});
 	});
 
 	$( "#popup_up" ).mouseup( function () {
@@ -120,6 +139,226 @@ $(function () {
 	});
 
 });
+
+// ***** modular arithmetic: http://javascript.about.com/od/problemsolving/a/modulobug.htm
+Number.prototype.mod = function (n) {
+	return ((this % n) + n) % n;
+};
+
+(function ($) { // a jQuery plugin for page scrolling
+
+// ***** external reliances
+//
+//	you must include attribute 'data-page-ID' with every class '.detail' in the HTML
+//		we can solve this by having all '.details' inside the parent '.page', change code in _init
+//
+
+	var methods, env, defaults;
+
+	env = { // _init needs this, however you should refer to that/this.CXE.env
+		currentPage: 0,
+		pageMap: [],
+		detailMap: [],
+		detailPageMap: []
+	};
+
+	defaults = { // _init needs this, however you should refer to that/this.CXE.env
+		scrollBody:	$('body, html'),
+		pages:		$('.page'),
+		details:	$('.detail'),
+		scrollSpeed: 	1200
+	};
+
+	methods = {
+		internal: {
+			_init: function (options) {
+				return this.each (function () {
+					var that = $(this), settings = {};
+					that.CXE = {}; // namespacing
+					// process options
+					$.extend (settings, defaults, options);
+					$.extend (that.CXE, {env: env});
+					$.extend (that.CXE.env, settings);
+					// get all pages and number them (0 to n), we assume page ID's are unique
+					that.CXE.env.pages.each (function (i, page) {
+						that.CXE.env.pageMap.push ($(page).attr ('id'));
+					});
+					// get all details and number them (0 to n), we assume detail ID's are unique
+					that.CXE.env.details.each (function (i, detail) {
+						var page = $.inArray ($(detail).data ('page-id'), that.CXE.env.pageMap);
+						that.CXE.env.detailMap.push ($(detail).attr ('id'));
+						that.CXE.env.detailPageMap.push (page); // assume page > -1 because assume good matching of data-page-id attributes and actual page ID's in HTML
+					});
+					// init the current page
+					that.CXE.env.currentPage = 0;
+					// write env before looking at URL and scrolling
+					methods.internal._putEnv.apply (that, []);
+					// scroll to page as per initial URL
+					methods.external.goTo.apply (that, [{
+						page: {
+							URL: methods.internal._getURL ()
+						}
+					}]);
+				});
+			},
+			_scrollTo: function (id, callback) { // id has no # in front of it
+				this.CXE.env.scrollBody.animate ( // please call this internal method with .apply (this, [id, callback])
+					{scrollTop: $('#' + id).offset ().top},
+					this.CXE.env.scrollSpeed,
+					callback ? callback : function () {} // TODO is callback a function?
+				);
+				methods.internal._putEnv.apply (this, []);
+			},
+			_showDetail: function (id, callback) { // id has no # in front of it
+				// it is assumed we are on correct page
+				callback ? callback () : function () {};
+			},
+			_getURL: function () {
+				return window.location.hash.substr (1);
+			},
+			_setURL: function (hash) {
+				// expects hash to be a string without the leading '#'
+				window.location.hash = "#" + hash;
+			},
+			_putEnv: function () { // let's restrict writing of Env to just internal methods
+				this.data ('CXEenv', this.CXE.env); // please call this internal method with .apply (this, [])
+			},
+			_getEnv: function () {
+				this.CXE = {env: {}}; // please call this internal method with .apply (this, [])
+				$.extend (this.CXE.env, this.data ('CXEenv'));
+			}
+		},
+		external: {
+			nextPage: function (options) {
+				return this.each (function () {
+					var that = $(this);
+					methods.internal._getEnv.apply (that, []);
+					methods.external.goTo.apply (that, [{
+						page: {
+							num: that.CXE.env.currentPage + 1
+						}, 
+						callback: options && options.callback ? options.callback : function () {} // TODO is callback a function?
+					}]);
+				});
+			},
+			prevPage: function (options) {
+				return this.each (function () {
+					var that = $(this);
+					methods.internal._getEnv.apply (that, []);
+					methods.external.goTo.apply (that, [{
+						page: {
+							num: that.CXE.env.currentPage - 1
+						}, 
+						callback: options && options.callback ? options.callback : function () {} // TODO is callback a function?
+					}]);
+				});
+			},
+			showDetail: function (options) {
+				return this.each (function () {
+					var that = $(this);
+					if (options && options.detail& options.detail.URL) methods.external.goTo.apply (that, [{
+						detail: {
+							URL: options.detail.URL
+						},
+						callback: options && options.callback ? callback : function () {} // TODO is callback a function?
+					}]);
+				});
+			},
+			goTo: function (options) {
+				// 
+				// options: { // example
+				//	page: {
+				//		num: 3,
+				//		URL: 'contact'
+				// 	},
+				//	detail: {
+				//		num: 4,
+				//		URL: 'testimonial1'
+				//	},
+				//	callback: function () {}
+				// } // TODO: type checking on options for a public function
+				return this.each (function () {
+					var URL, index, intMethods, that = $(this);
+					methods.internal._getEnv.apply (that, []);
+
+					intMethods = {
+						handleDetail: function (detail, callback) {
+							if (detail && detail.URL) {
+								index = $.inArray (detail.URL, that.CXE.env.detailMap);
+								if (that.CXE.env.detailPageMap[index] == that.CXE.env.currentPage) { // no point showing the details if we're on the wrong page
+									methods.internal._showDetail.apply (that, [
+										that.CXE.env.detailMap[index],
+										function () {
+											methods.internal._setURL (detail.URL);
+											callback ? callback () : (function () {}) (); // TODO is callback a function?
+										}
+									]);
+								} // else do nothing
+							} else if (detail && (detail.num === 0 || detail.num)) {
+								if (that.CXE.env.detailPageMap[detail.num] == that.CXE.env.currentPage) { // no point showing the details if we're on the wrong page
+									methods.internal._showDetail (that, [
+										(function (index, array) {
+											index = index.mod (array.length);
+											URL = array[index];
+											return URL;
+										}) (detail.num, that.CXE.env.detailMap),
+										function () {
+											methods.internal._setURL (URL);
+											callback ? callback () : (function () {}) (); // TODO is callback a function?
+										}
+									]);
+								} // else do nothing
+							} // else do nothing
+						}
+					};
+				
+					// handle page routing here, while detail routing is in intMethods {}
+					if (options && options.page) {
+						if (options.page.URL) {
+							index = $.inArray (options.page.URL, that.CXE.env.pageMap);
+							methods.internal._scrollTo.apply (that, [
+								options.page.URL,
+								function () {
+									that.CXE.env.currentPage = (function (needle, haystack, error) {
+										var index = $.inArray (needle, haystack);
+										return index > -1 ? index : error;
+									}) (options.page.URL, that.CXE.env.pageMap, that.CXE.env.currentPage);
+									methods.internal._setURL (options.page.URL);
+									if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
+									else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
+								}
+							]);
+						}
+						else if (options.page.num === 0 || options.page.num) methods.internal._scrollTo.apply (that, [
+							(function (index, array) {
+								index = index.mod (array.length);
+								URL = array[index];
+								return URL;
+							}) (options.page.num, that.CXE.env.pageMap),
+							function () {
+								that.CXE.env.currentPage = options.page.num;
+								methods.internal._setURL (URL);
+								if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
+								else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
+							}
+						]);
+						// else do nothing
+					} else if (options && options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {});
+					// else do nothing
+				});
+			}
+		}
+	};
+
+// ***** function controller
+
+	$.fn.CXEpage = function (method) { // CXE is the namespace for this "plugin"
+		if (methods.external[method]) return methods.external[method].apply (this, Array.prototype.slice.call (arguments, 1));
+		else if (typeof method === 'object' || !method) return methods.internal._init.apply (this, arguments);
+		else $.error ('Method ' +  method + ' does not exist on jQuery.CXEpage');
+	};
+
+}) (jQuery);
 
 function animate_guiding_links () {
 	$( "#next,#back,a.linky" ).animate ( { backgroundColor : g_guiding_link_color } , g_guiding_links_speed , function () {
