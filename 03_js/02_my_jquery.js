@@ -40,8 +40,6 @@ var g_website_title_base = "CXElegance";
 
 $(function () {
 
-	$( ".always_hidden" ).addClass( "hidden" );
-
 	$('body').CXEpage ({
 		scrollSpeed: 700,
 		pages: $('.page'),
@@ -147,12 +145,6 @@ Number.prototype.mod = function (n) {
 
 (function ($) { // a jQuery plugin for page scrolling
 
-// ***** external reliances
-//
-//	you must include attribute 'data-page-ID' with every class '.detail' in the HTML
-//		we can solve this by having all '.details' inside the parent '.page', change code in _init
-//
-
 	var methods, env, defaults;
 
 	env = { // _init needs this, however you should refer to that/this.CXE.env
@@ -185,9 +177,9 @@ Number.prototype.mod = function (n) {
 					});
 					// get all details and number them (0 to n), we assume detail ID's are unique
 					that.CXE.env.details.each (function (i, detail) {
-						var page = $.inArray ($(detail).data ('page-id'), that.CXE.env.pageMap);
+						var page = $.inArray ($(detail).parents (that.CXE.env.pages.selector).attr ('id'), that.CXE.env.pageMap);
 						that.CXE.env.detailMap.push ($(detail).attr ('id'));
-						that.CXE.env.detailPageMap.push (page); // assume page > -1 because assume good matching of data-page-id attributes and actual page ID's in HTML
+						that.CXE.env.detailPageMap.push (page); // assume page > -1 because assume details are inside page div
 					});
 					// init the current page
 					that.CXE.env.currentPage = 0;
@@ -256,11 +248,11 @@ Number.prototype.mod = function (n) {
 			showDetail: function (options) {
 				return this.each (function () {
 					var that = $(this);
-					if (options && options.detail& options.detail.URL) methods.external.goTo.apply (that, [{
+					if (options && options.detail & options.detail.URL) methods.external.goTo.apply (that, [{
 						detail: {
 							URL: options.detail.URL
 						},
-						callback: options && options.callback ? callback : function () {} // TODO is callback a function?
+						callback: options.callback ? options.callback : function () {} // TODO is callback a function?
 					}]);
 				});
 			},
