@@ -3,147 +3,216 @@
     include ($_SERVER['DOCUMENT_ROOT'] . "/compress.php");
 ?>
 */
-// JQuery and Javascript code by CXElegance.com
 
-// the following global vars are just initializations
-var g_viewport_width = 0; // this will get set properly on document ready
-var g_viewport_height = 0; // this will get set properly on document ready
-var g_viewport_height_min = 0; // this will be set on document ready, it is the value of the tallest page
-var g_hidden = false; // are the hideable elements hidden?
-var g_popup_left = 0; // will be set properly on resize and doc ready
-var g_popup_content_area_width = 0; // will be set on resize and doc ready
-var g_popup_content_area_height = 0; // will be set on resize and doc ready
-var g_current_URL_place = "!"; // will be set on page load
-var g_current_page = 1; // starting point, page1
-var g_current_detail = 0; // starting point, detail 0, i.e. not looking at a detail
-var g_popup_visible = false; // the modal popup, is it visible?
-var g_scrollID = 0; // for popup scrolling
-var g_animateID = 0; // for animated link
+// *****
+// CXElegance.com
+//
+// VERSION: 1.5.3; 2013-04-27
+//	- transitional, working toward complete overhaul
+//
+// DEPENDENCIES:
+//	+ jQuery (1.6.4)
+//	+ jQueryUI (1.8.16) (for effects())
+//
+// *****
 
-// the following global vars are customizable here
-var g_viewport_width_min = 640; // min width pixels, we change what's visible when <= this value
-var g_viewport_height_extra = 100; // how many extra pixels would you like in the height of the pages, beyond max viewport height or max content height?
-var g_page_scroll_speed = 1200; // what speed should JQuery animate the page scroll?
-var g_popup_content_area_border_width = 4; // pixels; static, set same as in CSS
-var g_popup_topdock_height = 50; // pixels; static, set same as in CSS
-var g_popup_content_height_adjustor = 82; // how many pixels to subtract to get bottom margin right, keeping in mind margins and paddings
-var g_popup_toggle_speed = 750; // what speed should JQuery animate the popup appear/disappear?
-var g_scaling_adjustor = 0.22; // when scalable items are scaled down, we have an adjustor amount due to the content area being a percentage of the body
-var g_popup_scroll_amt = 25; // amount of pixels to jump each interval
-var g_popup_scroll_int = 50; // number of milliseconds per interval
-var g_make_sure_scrollbar = 2; // how many pix to make sure there's a scrollbar when popup is up; browsers acting funny if no scrollbar
-var g_guiding_links_frequency = 4000; // number of milliseconds per interval
-var g_guiding_links_speed = 2000; // number of milliseconds to complete animation
-var g_guiding_link_color = "#FFBF66";
-var g_website_title_base = "CXElegance";
-//var g_mousewheel_speed = 30; // a number for multiplying the amount of mousewheel movement there is
+// *****
+// TODO list / Milestones
+//
+//	- Version 1.5.4:
+//		- clean up what's left of old div scrolling, mousewheeling, etc. (HTML, CSS, JavaScript)
+//		- replace page #'s with real text page names (and see if any detail names are too generic)
+//		- details display
+//			- after showing details, recalc the page heights
+//				- recalc again after hiding details
+//				- now, or future version, this page height equalization feature needs to be overhauled
+//			- handle possible issue of duplicate ID's from copying detail contents into display
+//			- when it closes, set the window URL... to current page
+//			- it won't appear if you load a page with detail deeper than first page (e.g. load a portfolio page with detail)
+//			- it won't appear if page number has wrapped around (browse past end and it wraps around to beginning)
+//			- look at callback or event trigger for when animations are complete
+//				- we want to always be offering a callback up the calling chain/stack
+//				- when we initiate from within, i.e. user can't provide callback, then shall we trigger event announcing commpletion?
+//			- CSS the border of display depending on page; colors are not distinct in some cases (e.g. portfolio 1)
+//	- Version 1.5.5:
+//		- rethink how page acts on smaller screenwidths; rethink fluid layout
+//		 	- fix portfolio image width discrepancy (chrome firefox)
+//		 	- on super narrow pages, fix portfolio images and title extending past, causing scrollbar
+//		 	- when confident with narrow page / fluid handling, restore the viewport meta tag
+//		 	- hiding/showing of elements for varying page width
+//		- consider removing jQueryUI, currently being used for method: effect() (for scaling the size of elements on page resize)
+//		 	- stop scalable things shrinking to nothing on IPhone
+//		 		- or get rid of scaling, because also buggy on Android 2.2
+//		 		- or use the jQuery throttle/debounce (plugin?) code to possibly resolve this
+//		- fix bug: sometimes browser needs a resize to spur proper width space calculations
+//			- e.g. sometimes text on right of portfolio images is below images, even though there is space
+//			- now is maybe time to overhaul this feature?
+//	- Version 1.5.6:
+//		- rethink fixed topdock... better way?
+//		 	- could just have this at the top of every "page", eliminating the need for fixation
+//		- rethink HTML (and CSS)
+//			- wherever div and span are used, can we use a more specific/accurate tag/element?
+//				- the answer will often be yes, so do so
+//		 	- replace CSS nth-childs with more specific selectors
+//			- be more precise and efficient with CSS selectors
+//			- look for and clean orphaned CSS; re-org CSS in nice LESS categorization/grouping
+//	- Version 1.5.7:
+//		- remove legacy code, replace with separate entities:
+//			- elements that disappear/reappear depending on page width
+//			- page height equalizations... part of main page scrolling / detail viewing plugin?
+//			- row width/spacer calculators
+//	- Version 1.5.8:
+//		- consider minifying css/js/html (it's being sent compressed now, which is good)
+//		- w3c validate css/jscript/HTML
+//		- load bg and img images after page is ready and shown
+//		- testing:
+//		 	- unit: QUnit
+//		 	- also JSlint
+//
+// *****
 
-$(function () {
+$(function () { // on document load/ready
 
-	$('body').CXEpage ({
-		scrollSpeed: 700,
-		pages: $('.page'),
-		details: $('.detail'),
-		scrollBody: $('body, html')
+	$('body').CXEpage ({ // watch for event 'detailComplete.CXEpage'; it announces when detail (show/hide) animations are complete
+		scrollSpeed: 700, // page scroll animation speed
+		detailSpeed: 700, // detail show/hide animation speed
+		pages: $('.page'), // where all pages are kept
+		details: $('.detail'), // where all details are kept; ENSURE NO ID's are in here because there will be duplication issues
+		detailDivClass: $('.detail_display'), // where all detail display containers are; you can stylize in CSS; look for 'CXEpage' namespaced html that is generated
+		scrollBody: $('body, html') // this probably shouldn't be an option
 	});
 
-	g_animateID = self.setInterval( "animate_guiding_links ()" , g_guiding_links_frequency );
+	//\$.CXEpage.env.g_animateID = self.setInterval( "$.CXEpage.methods.animate_guiding_links ()" , $.CXEpage.env.g_guiding_links_frequency );
 
 	// our first page load is similar to a page resize
-		viewport_size_changed ();
-		//\initial_URL_place ();
-		//\goto_URL_place ();
+		$.CXEpage.methods.viewport_size_changed ();
+		//\$.CXEpage.methods.initial_URL_place ();
+		//\$.CXEpage.methods.goto_URL_place ();
 
 	$( window ).resize( function() {
-		viewport_size_changed ();
-		//\goto_URL_place ();
+		$.CXEpage.methods.viewport_size_changed ();
+		//\$.CXEpage.methods.goto_URL_place ();
 	});
 
-	$( ".linky" ). click ( function (event) {
+	$( ".linky" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		cancel_window_timer ( g_animateID );
+		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
 		// strip the "#" from the link
 		// then go to the link
-		//\follow_link ( $( this ).attr( "href" ).substr( 1 ) );
+		//\$.CXEpage.methods.follow_link ( $( this ).attr( "href" ).substr( 1 ) );
 		$('body').CXEpage ('goTo', {
-			page: {
+			page: { // I dunno if this is a page link or a detail link
 				URL: $(this).attr ('href').substr (1)
 			},
-			callback: function () {console.log ('linky was clicked and actioned');}
+			detail: {
+				URL: $(this).attr ('href').substr (1)
+			}//,
+			//callback: function () {console.log ('linky was actioned');}
 		});
 	});
 
-	$( "#next" ).click ( function (event) {
+	$( ".linkyhome" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		cancel_window_timer ( g_animateID );
-		//\shift_page( 1 );
+		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
+		// strip the "#" from the link
+		// then go to the link
+		//\$.CXEpage.methods.follow_link ( $( this ).attr( "href" ).substr( 1 ) );
+		$('body').CXEpage ('goTo', {
+			page: { // I dunno if this is a page link or a detail link
+				num: 0
+			},
+			detail: {
+				URL: $(this).attr ('href').substr (1)
+			}//,
+			//callback: function () {console.log ('linky was actioned');}
+		});
+	});
+
+	$( "#next" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
+		event.preventDefault ();
+		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
+		//\$.CXEpage.methods.shift_page( 1 );
 		$('body').CXEpage ('nextPage', {
-			callback: function () {console.log ('next was clicked and actioned');}
+			//callback: function () {console.log ('next was actioned');}
 		});
 	});
 
-	$( "#back" ).click ( function (event) {
+	$( "#back" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		cancel_window_timer ( g_animateID );
-		//\shift_page( -1 );
+		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
+		//\$.CXEpage.methods.shift_page( -1 );
 		$('body').CXEpage ('prevPage', {
-			callback: function () {console.log ('back was clicked and actioned');}
+			//callback: function () {console.log ('back was clicked and actioned');}
 		});
 	});
 
 	$( "#popup_up" ).mouseup( function () {
-		cancel_window_timer ( g_scrollID );
+		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_scrollID );
 	});
 
 	$( "#popup_up" ).mousedown( function () {
 		var selected = $( "#popup_content" );
 		$( this ).data( "scrollTop", selected.scrollTop() );
-		scroll_popup( "#popup_up" , -g_popup_scroll_amt );
+		$.CXEpage.methods.scroll_popup( "#popup_up" , -$.CXEpage.env.g_popup_scroll_amt );
 		$( this ).data( "scrollTop", selected.scrollTop() );
-		g_scrollID = self.setInterval( "scroll_popup( '#popup_up' , -" + g_popup_scroll_amt.toString() + " )" , g_popup_scroll_int );
+		$.CXEpage.env.g_scrollID = self.setInterval( "$.CXEpage.methods.scroll_popup( '#popup_up' , -" + $.CXEpage.env.g_popup_scroll_amt.toString() + " )" , $.CXEpage.env.g_popup_scroll_int );
 	});
 
 	$( "#popup_down" ).mouseup( function () {
-		cancel_window_timer ( g_scrollID );
+		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_scrollID );
 	});
 
 	$( "#popup_down" ).mousedown( function () {
 		var selected = $( "#popup_content" );
 		$( this ).data( "scrollTop", selected.scrollTop() );
-		scroll_popup( "#popup_up" , g_popup_scroll_amt );
+		$.CXEpage.methods.scroll_popup( "#popup_up" , $.CXEpage.env.g_popup_scroll_amt );
 		$( this ).data( "scrollTop", selected.scrollTop() );
-		g_scrollID = self.setInterval( "scroll_popup( '#popup_down' , " + g_popup_scroll_amt.toString() + " )" , g_popup_scroll_int );
+		$.CXEpage.env.g_scrollID = self.setInterval( "$.CXEpage.methods.scroll_popup( '#popup_down' , " + $.CXEpage.env.g_popup_scroll_amt.toString() + " )" , $.CXEpage.env.g_popup_scroll_int );
 	});
 
 	$( window ).scroll( function () {
-		if ( g_popup_visible ) {
+		if ( $.CXEpage.env.g_popup_visible ) {
 			$( "#popup_content" ).scrollTop( $( this ).scrollTop() );
 		}
 	});
 
 	$( "#popup_next" ).click ( function () {
-		shift_detail( 1 );
+		$.CXEpage.methods.shift_detail( 1 );
 	});
 
 	$( "#popup_back" ).click ( function () {
-		shift_detail( -1 );
+		$.CXEpage.methods.shift_detail( -1 );
 	});
 
 	$( "#popup_close" ).click ( function (e) { 
 		// Prevent a page reload when a link is pressed
 		e.preventDefault(); 
 		// Call the scroll function
-		follow_link ( "page" + g_current_page.toString() );
+		$.CXEpage.methods.follow_link ( "page" + $.CXEpage.env.g_current_page.toString() );
 	});
 
 });
 
-// ***** modular arithmetic: http://javascript.about.com/od/problemsolving/a/modulobug.htm
+// *****
+// modular arithmetic: http://javascript.about.com/od/problemsolving/a/modulobug.htm
+//
+// *****
+
 Number.prototype.mod = function (n) {
 	return ((this % n) + n) % n;
 };
 
+// *****
+// a jQuery plugin-styled solution for handling URL routing, page scrolling, and detail showing
+//
+//	I realize this is a bit silly - a jQuery plugin - because really you would only use this plugin for one
+//	element in any page - most likely the 'body'. However, it's an exercise that I enjoyed coding.  So there.
+//
+// *****
+
 (function ($) { // a jQuery plugin for page scrolling
+
+	'use strict';
 
 	var methods, env, defaults;
 
@@ -155,10 +224,12 @@ Number.prototype.mod = function (n) {
 	};
 
 	defaults = { // _init needs this, however you should refer to that/this.CXE.env
-		scrollBody:	$('body, html'),
-		pages:		$('.page'),
-		details:	$('.detail'),
-		scrollSpeed: 	1200
+		scrollSpeed: 700, // page scroll animation speed
+		detailSpeed: 700, // detail show/hide animation speed
+		pages: $('.page'), // where all pages are kept
+		details: $('.detail'), // where all details are kept; ENSURE NO ID's are in here because there will be duplication issues
+		detailDivClass: $('.detail_display'), // where all detail display containers are; you can stylize in CSS; look for 'CXEpage' namespaced html that is generated
+		scrollBody: $('body, html') // this probably shouldn't be an option
 	};
 
 	methods = {
@@ -187,23 +258,72 @@ Number.prototype.mod = function (n) {
 					methods.internal._putEnv.apply (that, []);
 					// scroll to page as per initial URL
 					methods.external.goTo.apply (that, [{
-						page: {
+						page: { // we don't know if the URL is for a page or a detail
+							URL: methods.internal._getURL ()
+						},
+						detail: {
 							URL: methods.internal._getURL ()
 						}
 					}]);
 				});
 			},
 			_scrollTo: function (id, callback) { // id has no # in front of it
+				var that = this;
 				this.CXE.env.scrollBody.animate ( // please call this internal method with .apply (this, [id, callback])
 					{scrollTop: $('#' + id).offset ().top},
-					this.CXE.env.scrollSpeed,
-					callback ? callback : function () {} // TODO is callback a function?
-				);
-				methods.internal._putEnv.apply (this, []);
+					this.CXE.env.scrollSpeed
+				).promise ().done (function () {
+					callback ();
+					methods.internal._putEnv.apply (that, []);
+				}); // because scrollBody may be multiple elements selected
 			},
 			_showDetail: function (id, callback) { // id has no # in front of it
 				// it is assumed we are on correct page
-				callback ? callback () : function () {};
+				var	helpers,
+					that = this, // please call this internal method with .apply (this, [id, callback])
+					detail = $('#' + this.CXE.env.pageMap[this.CXE.env.currentPage] + ' ' + this.CXE.env.detailDivClass.selector);
+
+				// helper methods:
+				helpers = {
+					showDetail: function (id, callback) {
+						detail.html (
+							'\n' +
+							'	<div class="CXEpage_detail">' + '\n' +
+							'		<div class="topdock">' + '\n' +
+							'			<a href="" onclick="$(\'body\').CXEpage (\'hideDetail\'); return false;" class="close">&gt;&lt;</a>' + '\n' + // TODO: make the close button text customizable
+							'		</div>' + '\n' +
+							'		<div class="inner">' + '\n' +
+							'			<div class="title">' + id + '</div>' + '\n' +
+							'			<div class="hr"></div>' + '\n' +
+							'			<div class="content">' + $('#' + id).html () + '</div>' + '\n'  +
+							'		</div>' + '\n' +
+							'	</div>' + '\n'
+						);
+						detail.animate (
+							{height: 'show'},
+							this.CXE.env.detailSpeed,
+							callback
+						);
+					}
+				};
+				// hide first, then show
+				methods.internal._hideDetail.apply (this, [function () {
+					helpers.showDetail.apply (that, [id, function () {
+						callback ();
+						methods.internal._putEnv.apply (that, []);
+					}]);
+				}]);
+			},
+			_hideDetail: function (callback) {
+				var	that = this, // please call this internal method with .apply (this, [callback])
+					detail = $(this.CXE.env.detailDivClass.selector); // all of them
+				detail.animate (
+					{height: 'hide'},
+					this.CXE.env.detailSpeed
+				).promise ().done (function () {
+					callback ();
+					methods.internal._putEnv.apply (that, []);
+				}); // because detail may have multiple elements to do
 			},
 			_getURL: function () {
 				return window.location.hash.substr (1);
@@ -256,6 +376,15 @@ Number.prototype.mod = function (n) {
 					}]);
 				});
 			},
+			hideDetail: function (options) {
+				return this.each (function () {
+					var that = $(this);
+					methods.internal._getEnv.apply (that, []);
+					methods.internal._hideDetail.apply (that, [
+						options && options.callback ? options.callback : function () {} // TODO is callback a function?
+					]);
+				});
+			},
 			goTo: function (options) {
 				// 
 				// options: { // example
@@ -274,15 +403,46 @@ Number.prototype.mod = function (n) {
 					methods.internal._getEnv.apply (that, []);
 
 					intMethods = {
+						handlePage: function (options) {
+							if (options && options.page) {
+								if (options.page.URL) {
+									index = $.inArray (options.page.URL, that.CXE.env.pageMap);
+									methods.internal._scrollTo.apply (that, [
+										index > -1 ? options.page.URL : that.CXE.env.pageMap[that.CXE.env.currentPage],
+										function () {
+											that.CXE.env.currentPage = index > -1 ? index : that.CXE.env.currentPage;
+											index > -1 ? methods.internal._setURL (options.page.URL) : (function () {}) ();
+											if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
+											else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
+										}
+									]);
+								}
+								else if (options.page.num === 0 || options.page.num) methods.internal._scrollTo.apply (that, [
+									(function (index, array) {
+										index = index.mod (array.length);
+										URL = array[index];
+										return URL;
+									}) (options.page.num, that.CXE.env.pageMap),
+									function () {
+										that.CXE.env.currentPage = options.page.num;
+										methods.internal._setURL (URL);
+										if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
+										else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
+									}
+								]);
+								// else do nothing
+							} else if (options && options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {});
+							// else do nothing
+						},
 						handleDetail: function (detail, callback) {
 							if (detail && detail.URL) {
 								index = $.inArray (detail.URL, that.CXE.env.detailMap);
-								if (that.CXE.env.detailPageMap[index] == that.CXE.env.currentPage) { // no point showing the details if we're on the wrong page
+								if (index > -1 && that.CXE.env.detailPageMap[index] == that.CXE.env.currentPage) { // no point showing the details if we're on the wrong page
 									methods.internal._showDetail.apply (that, [
 										that.CXE.env.detailMap[index],
 										function () {
 											methods.internal._setURL (detail.URL);
-											callback ? callback () : (function () {}) (); // TODO is callback a function?
+											callback ();
 										}
 									]);
 								} // else do nothing
@@ -296,47 +456,18 @@ Number.prototype.mod = function (n) {
 										}) (detail.num, that.CXE.env.detailMap),
 										function () {
 											methods.internal._setURL (URL);
-											callback ? callback () : (function () {}) (); // TODO is callback a function?
+											callback ();
 										}
 									]);
 								} // else do nothing
 							} // else do nothing
 						}
 					};
-				
-					// handle page routing here, while detail routing is in intMethods {}
-					if (options && options.page) {
-						if (options.page.URL) {
-							index = $.inArray (options.page.URL, that.CXE.env.pageMap);
-							methods.internal._scrollTo.apply (that, [
-								options.page.URL,
-								function () {
-									that.CXE.env.currentPage = (function (needle, haystack, error) {
-										var index = $.inArray (needle, haystack);
-										return index > -1 ? index : error;
-									}) (options.page.URL, that.CXE.env.pageMap, that.CXE.env.currentPage);
-									methods.internal._setURL (options.page.URL);
-									if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
-									else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
-								}
-							]);
-						}
-						else if (options.page.num === 0 || options.page.num) methods.internal._scrollTo.apply (that, [
-							(function (index, array) {
-								index = index.mod (array.length);
-								URL = array[index];
-								return URL;
-							}) (options.page.num, that.CXE.env.pageMap),
-							function () {
-								that.CXE.env.currentPage = options.page.num;
-								methods.internal._setURL (URL);
-								if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
-								else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
-							}
-						]);
-						// else do nothing
-					} else if (options && options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {});
-					// else do nothing
+
+					// hide any details, then route for page, and route for detail as callback
+					methods.internal._hideDetail.apply (that, [function () {	
+						intMethods.handlePage (options ? options : {});
+					}]);
 				});
 			}
 		}
@@ -352,273 +483,327 @@ Number.prototype.mod = function (n) {
 
 }) (jQuery);
 
-function animate_guiding_links () {
-	$( "#next,#back,a.linky" ).animate ( { backgroundColor : g_guiding_link_color } , g_guiding_links_speed , function () {
-		$( "#next,#back,a.linky" ).removeAttr ( "style" ).animate ();
-	 });
-};
+// *****
+// CXEpage: namespacing for legacy (and embarrassing) functions and global variables
+//
+//	- there's nothing elegant about this section; that's why it's legacy and being orphaned
+//		- quickly turning them into methods and properties; the JavaScript way
+//	* these methods and properties are to be overhauled so don't spend too much time here
+//
+// *****
 
-function cancel_window_timer ( timer ) {
-	timer = window.clearInterval ( timer );
-};
+(function ($) { // Let's be good and secure our nice $ namespace
+	'use strict';
+	$.CXEpage = { // introducing our legacy namespace
 
-function hide_other_pages ( bool_hide ) {
-	if ( bool_hide ) {
-		$( ".page" ).toggleClass( "hidden" );
-		$( "#page" + g_current_page.toString() ).toggleClass ( "hidden" );
-		$( ".page" ).toggleClass( "overflow_hidden" );
-		set_page_heights ( false );
-	}
-	else {
-		$( "#page" + g_current_page.toString() ).toggleClass ( "hidden" );
-		$( ".page" ).toggleClass( "hidden" );
-		$( ".page" ).toggleClass( "overflow_hidden" );
-		set_page_heights ( true );
-	}
-};
+		env: {
+			// customizable by me/you
+			g_viewport_width_min: 640, // min width pixels, we change what's visible when <= this value
+			g_viewport_height_extra: 100, // how many extra pixels would you like in the height of the pages, beyond max viewport height or max content height?
+			g_page_scroll_speed: 1200, // what speed should JQuery animate the page scroll?
+			g_popup_content_area_border_width: 4, // pixels; static, set same as in CSS
+			g_popup_topdock_height: 50, // pixels; static, set same as in CSS
+			g_popup_content_height_adjustor: 82, // how many pixels to subtract to get bottom margin right, keeping in mind margins and paddings
+			g_popup_toggle_speed: 750, // what speed should JQuery animate the popup appear/disappear?
+			g_scaling_adjustor: 0.22, // when scalable items are scaled down, we have an adjustor amount due to the content area being a percentage of the body
+			g_popup_scroll_amt: 25, // amount of pixels to jump each interval
+			g_popup_scroll_int: 50, // number of milliseconds per interval
+			g_make_sure_scrollbar: 2, // how many pix to make sure there's a scrollbar when popup is up; browsers acting funny if no scrollbar
+			g_guiding_links_frequency: 4000, // number of milliseconds per interval
+			g_guiding_links_speed: 2000, // number of milliseconds to complete animation
+			g_guiding_link_color: "#FFBF66",
+			g_website_title_base: "CXElegance",
+			//g_mousewheel_speed: 30, // a number for multiplying the amount of mousewheel movement there is
 
-function scroll_popup ( button , amount ) {
-	var selected = $( "#popup_content" );
-	button = $( button );
-	selected.scrollTop( button.data( "scrollTop" ) + amount );
-	button.data( "scrollTop", selected.scrollTop() );
-};
+			// initializations only
+			g_viewport_width: 0, // this will get set properly on document ready
+			g_viewport_height: 0, // this will get set properly on document ready
+			g_viewport_height_min: 0, // this will be set on document ready, it is the value of the tallest page
+			g_hidden: false, // are the hideable elements hidden?
+			g_popup_left: 0, // will be set properly on resize and doc ready
+			g_popup_content_area_width: 0, // will be set on resize and doc ready
+			g_popup_content_area_height: 0, // will be set on resize and doc ready
+			g_current_URL_place: "!", // will be set on page load
+			g_current_page: 1, // starting point, page1
+			g_current_detail: 0, // starting point, detail 0, i.e. not looking at a detail
+			g_popup_visible: false, // the modal popup, is it visible?
+			g_scrollID: 0, // for popup scrolling
+			g_animateID: 0, // for animated link
+			___end___: 0 // just a dummy ending so I can copy and paste commas above
+		},
 
-function toggle_popup_visible () {
-	if ( g_popup_visible ) {
-		$( "#modal_screen" ).fadeOut( g_popup_toggle_speed );
-		$( "#popup" ).fadeOut( g_popup_toggle_speed );
-		hide_other_pages( false );
-	}
-	else {
-		$( "#popup" ).fadeIn( g_popup_toggle_speed );
-		$( "#modal_screen" ).fadeIn( g_popup_toggle_speed );
-		hide_other_pages( true );
-	}
-	g_popup_visible = !g_popup_visible;
-	$( "#popup" ).toggleClass( "hidden" );
-	$( "#modal_screen" ).toggleClass( "hidden" );
-};
+		methods: {
 
-function shift_detail ( adj ) {
-	// adj should be + or - 1
-	var potential = "detail_" + (g_current_detail + adj).toString();
-	if ( $( "#details_page" + g_current_page.toString() + " ." + potential ).length ) {
-		follow_link ( $( "#details_page" + g_current_page.toString() + " ." + potential + ">.detail" ).attr( "id" ) );
-	}
-};
+			animate_guiding_links: function () {
+				$( "#next,#back,a.linky" ).animate ( { backgroundColor : $.CXEpage.env.g_guiding_link_color } , $.CXEpage.env.g_guiding_links_speed , function () {
+					$( "#next,#back,a.linky" ).removeAttr ( "style" ).animate ();
+				 });
+			},
 
-function shift_page ( adj ) {
-	// adj should be + or - 1
-	var potential = "page" + (g_current_page + adj).toString();
-	if ( $ ( "#" + potential ).length ) {
-		follow_link ( potential );
-	}
-};
+			cancel_window_timer: function ( timer ) {
+				timer = window.clearInterval ( timer );
+			},
 
-function mark_position ( page, detail ) {
-	// make sure these are integer values!
-	g_current_detail = detail;
-	g_current_page = page;
-};
+			hide_other_pages: function ( bool_hide ) {
+				if ( bool_hide ) {
+					$( ".page" ).toggleClass( "hidden" );
+					$( "#page" + $.CXEpage.env.g_current_page.toString() ).toggleClass ( "hidden" );
+					$( ".page" ).toggleClass( "overflow_hidden" );
+					$.CXEpage.methods.set_page_heights ( false );
+				}
+				else {
+					$( "#page" + $.CXEpage.env.g_current_page.toString() ).toggleClass ( "hidden" );
+					$( ".page" ).toggleClass( "hidden" );
+					$( ".page" ).toggleClass( "overflow_hidden" );
+					$.CXEpage.methods.set_page_heights ( true );
+				}
+			},
 
-function follow_link ( id ) {
-	// expects text to be string that we can browse to, like a hash ID without '#'
-	set_URL_place ( id );
-	goto_URL_place ();
-	change_location_hash ( id );
-};
+			scroll_popup: function ( button , amount ) {
+				var selected = $( "#popup_content" );
+				button = $( button );
+				selected.scrollTop( button.data( "scrollTop" ) + amount );
+				button.data( "scrollTop", selected.scrollTop() );
+			},
 
-function change_location_hash ( hash ) {
-	// expects hash to be a string without the leading '#'
-	window.location.hash = "#" + hash;
-};
+			toggle_popup_visible: function () {
+				if ( $.CXEpage.env.g_popup_visible ) {
+					$( "#modal_screen" ).fadeOut( $.CXEpage.env.g_popup_toggle_speed );
+					$( "#popup" ).fadeOut( $.CXEpage.env.g_popup_toggle_speed );
+					$.CXEpage.methods.hide_other_pages( false );
+				}
+				else {
+					$( "#popup" ).fadeIn( $.CXEpage.env.g_popup_toggle_speed );
+					$( "#modal_screen" ).fadeIn( $.CXEpage.env.g_popup_toggle_speed );
+					$.CXEpage.methods.hide_other_pages( true );
+				}
+				$.CXEpage.env.g_popup_visible = !$.CXEpage.env.g_popup_visible;
+				$( "#popup" ).toggleClass( "hidden" );
+				$( "#modal_screen" ).toggleClass( "hidden" );
+			},
 
-function goto_URL_place () {
-	var page_title = g_website_title_base;
-	if ( g_current_URL_place == "" ) {
-		if ( g_popup_visible ) {
-			toggle_popup_visible ();
-		}
-		mark_position ( 1 , 0 );
-		page_title += " - Welcome";
-		scroll_to_id ( "page1" );
-	}
-	else if ( g_current_URL_place.substring( 0 , 4 ) == "page" ) {
-		mark_position ( parseInt( g_current_URL_place.substr( 4 ) ) , 0 );
-		if ( g_popup_visible ) {
-			toggle_popup_visible ();
-		}
-		scroll_to_id ( g_current_URL_place );
-		page_title += " - " + g_current_URL_place;
-	}
-	else {
-		// determine what page and scroll to it
-			// find the div named "<name>"
-			// it's parent div is called "details_page<num>"
-		var id = $( "#" + g_current_URL_place ).parent().parent().attr ( "id" );
-		var index = id.lastIndexOf( "_" ) + 1;
-		var detail_id = $( "#" + g_current_URL_place ).parent().attr ( "class" );
-		detail_id = detail_id.substr( 7 );
-		id = id.substr( index );
-		scroll_to_id ( id );
-		mark_position ( id.substr( 4 ) , parseInt( detail_id ) );
+			shift_detail: function ( adj ) {
+				// adj should be + or - 1
+				var potential = "detail_" + ($.CXEpage.env.g_current_detail + adj).toString();
+				if ( $( "#details_page" + $.CXEpage.env.g_current_page.toString() + " ." + potential ).length ) {
+					$.CXEpage.methods.follow_link ( $( "#details_page" + $.CXEpage.env.g_current_page.toString() + " ." + potential + ">.detail" ).attr( "id" ) );
+				}
+			},
 
-		// load the modal popup contents
-		$( "#popup_content" ).html( $( "#" + g_current_URL_place ).html() );
-		// $( "#popup_title" ).html( g_current_URL_place ); // got rid of this, having a home link now
-		if ( !g_popup_visible ) {
-			toggle_popup_visible ();
-		}
-		set_page_heights ( false );
-		page_title += " - " + g_current_URL_place;
-	}
-	// change the page title
-	$( "head>title" ).html( page_title );
-	// change the popup guide text, which is just the page_title
-	$( "#popup_content_guide_text>span" ).html( g_current_URL_place );
-};
+			shift_page: function ( adj ) {
+				// adj should be + or - 1
+				var potential = "page" + ($.CXEpage.env.g_current_page + adj).toString();
+				if ( $ ( "#" + potential ).length ) {
+					$.CXEpage.methods.follow_link ( potential );
+				}
+			},
 
-function set_URL_place ( id ) {
-	g_current_URL_place = id;
-};
+			mark_position: function ( page, detail ) {
+				// make sure these are integer values!
+				$.CXEpage.env.g_current_detail = detail;
+				$.CXEpage.env.g_current_page = page;
+			},
 
-function initial_URL_place () {
-	g_current_URL_place = window.location.hash;
-	g_current_URL_place = g_current_URL_place.substr( 1 ); // get rid of the leading '#'
-};
+			follow_link: function ( id ) {
+				// expects text to be string that we can browse to, like a hash ID without '#'
+				$.CXEpage.methods.set_URL_place ( id );
+				$.CXEpage.methods.goto_URL_place ();
+				$.CXEpage.methods.change_location_hash ( id );
+			},
 
-function set_viewport_dimensions () {
-	g_viewport_width = $( window ).width();
-	g_viewport_height = $( window ).height();
-};
+			change_location_hash: function ( hash ) {
+				// expects hash to be a string without the leading '#'
+				window.location.hash = "#" + hash;
+			},
 
-function viewport_size_changed () {
-	set_viewport_dimensions ();
+			goto_URL_place: function () {
+				var page_title = $.CXEpage.env.g_website_title_base;
+				if ( $.CXEpage.env.g_current_URL_place == "" ) {
+					if ( $.CXEpage.env.g_popup_visible ) {
+						$.CXEpage.methods.toggle_popup_visible ();
+					}
+					$.CXEpage.methods.mark_position ( 1 , 0 );
+					page_title += " - Welcome";
+					$.CXEpage.methods.scroll_to_id ( "page1" );
+				}
+				else if ( $.CXEpage.env.g_current_URL_place.substring( 0 , 4 ) == "page" ) {
+					$.CXEpage.methods.mark_position ( parseInt( $.CXEpage.env.g_current_URL_place.substr( 4 ) ) , 0 );
+					if ( $.CXEpage.env.g_popup_visible ) {
+						$.CXEpage.methods.toggle_popup_visible ();
+					}
+					$.CXEpage.methods.scroll_to_id ( $.CXEpage.env.g_current_URL_place );
+					page_title += " - " + $.CXEpage.env.g_current_URL_place;
+				}
+				else {
+					// determine what page and scroll to it
+						// find the div named "<name>"
+						// it's parent div is called "details_page<num>"
+					var id = $( "#" + $.CXEpage.env.g_current_URL_place ).parent().parent().attr ( "id" );
+					var index = id.lastIndexOf( "_" ) + 1;
+					var detail_id = $( "#" + $.CXEpage.env.g_current_URL_place ).parent().attr ( "class" );
+					detail_id = detail_id.substr( 7 );
+					id = id.substr( index );
+					$.CXEpage.methods.scroll_to_id ( id );
+					$.CXEpage.methods.mark_position ( id.substr( 4 ) , parseInt( detail_id ) );
 
-	// to hide, or not to hide things
-	if ( g_viewport_width <= g_viewport_width_min ) {
-		$( ".hideable" ).addClass ("hidden");
-		$( "#popup" ).removeClass ("halfwidth");
-		$( "#popup" ).addClass ("fullwidth");
-		$( "#popup" ).removeClass ("popup_minwidth");
-		g_hidden = true;
-	} else {
-		$( ".hideable" ).removeClass ("hidden");
-		$( "#popup" ).removeClass ("fullwidth");
-		$( "#popup" ).addClass ("halfwidth");
-		$( "#popup" ).addClass ("popup_minwidth");
-		g_hidden = false;
-	}
+					// load the modal popup contents
+					$( "#popup_content" ).html( $( "#" + $.CXEpage.env.g_current_URL_place ).html() );
+					// $( "#popup_title" ).html( $.CXEpage.env.g_current_URL_place ); // got rid of this, having a home link now
+					if ( !$.CXEpage.env.g_popup_visible ) {
+						$.CXEpage.methods.toggle_popup_visible ();
+					}
+					$.CXEpage.methods.set_page_heights ( false );
+					page_title += " - " + $.CXEpage.env.g_current_URL_place;
+				}
+				// change the page title
+				$( "head>title" ).html( page_title );
+				// change the popup guide text, which is just the page_title
+				$( "#popup_content_guide_text>span" ).html( $.CXEpage.env.g_current_URL_place );
+			},
 
-	// the testimonials page needs a bit of help, we want content boxes to be same width, unless we are hiding things
-	if ( !g_hidden ) {
-		var maxwidth = 0;
-		$ ( "#page2 .row_content" ).each ( function () {
-			maxwidth = Math.max ( maxwidth , $( this ).width() );
-		});
-		$ ( "#page2 .row_content" ).each ( function () {
-			$( this ).width ( maxwidth );
-		});
-	}
-	else {
-		$ ( "#page2 .row_content" ).each ( function () {
-			$( this ).width ( 'auto' );
-		});
-	}
+			set_URL_place: function ( id ) {
+				$.CXEpage.env.g_current_URL_place = id;
+			},
 
-	// set width of spacers in rows
-	if ( !g_hidden ) {
-		$ ( ".row" ).each ( function (i) {
-			var content_width_total = 0; // this will accumulate in the following code
-			var row_width = $ ( this ).innerWidth();
-			var content_counter = 0; // this is a counter accumulating +1
-			var space_betweens = 4; // a pixel guess of the space between two inline blocks, depends on browser?
-			var misc_adjustor = 1; // do you want to reduce the spacer width any more pixels?
-			var this_row_id = $ ( this ).attr ( "id" );
-			var spacer_counter = $( "#" + this_row_id + " .row_spacer").length;
+			initial_URL_place: function () {
+				$.CXEpage.env.g_current_URL_place = window.location.hash;
+				$.CXEpage.env.g_current_URL_place = $.CXEpage.env.g_current_URL_place.substr( 1 ); // get rid of the leading '#'
+			},
 
-			$ ( "#" + this_row_id + " .row_content" ).each ( function () {
-				content_width_total = content_width_total + $( this ).outerWidth( true );
-				content_counter = content_counter + 1;
-			});
+			set_viewport_dimensions: function () {
+				$.CXEpage.env.g_viewport_width = $( window ).width();
+				$.CXEpage.env.g_viewport_height = $( window ).height();
+			},
 
-			var spacer_width = ( row_width - content_width_total ) / spacer_counter;
-			spacer_width -= 0.5; // we want to round down, not round up
-			spacer_width = Math.round ( spacer_width );
+			viewport_size_changed: function () {
+				$.CXEpage.methods.set_viewport_dimensions ();
 
-			// experiencing annoying width discrepencies in JQuery
-			// only an issue if there are less spacers than contents
-			spacer_width -= ( 2 * space_betweens );
-			if ( spacer_counter < content_counter ) {
-				spacer_width -= misc_adjustor;
+				// to hide, or not to hide things
+				if ( $.CXEpage.env.g_viewport_width <= $.CXEpage.env.g_viewport_width_min ) {
+					$( ".hideable" ).addClass ("hidden");
+					$( "#popup" ).removeClass ("halfwidth");
+					$( "#popup" ).addClass ("fullwidth");
+					$( "#popup" ).removeClass ("popup_minwidth");
+					$.CXEpage.env.g_hidden = true;
+				} else {
+					$( ".hideable" ).removeClass ("hidden");
+					$( "#popup" ).removeClass ("fullwidth");
+					$( "#popup" ).addClass ("halfwidth");
+					$( "#popup" ).addClass ("popup_minwidth");
+					$.CXEpage.env.g_hidden = false;
+				}
+
+				// the testimonials page needs a bit of help, we want content boxes to be same width, unless we are hiding things
+				if ( !$.CXEpage.env.g_hidden ) {
+					var maxwidth = 0;
+					$ ( "#page2 .row_content" ).each ( function () {
+						maxwidth = Math.max ( maxwidth , $( this ).width() );
+					});
+					$ ( "#page2 .row_content" ).each ( function () {
+						$( this ).width ( maxwidth );
+					});
+				}
+				else {
+					$ ( "#page2 .row_content" ).each ( function () {
+						$( this ).width ( 'auto' );
+					});
+				}
+
+				// set width of spacers in rows
+				if ( !$.CXEpage.env.g_hidden ) {
+					$ ( ".row" ).each ( function (i) {
+						var content_width_total = 0; // this will accumulate in the following code
+						var row_width = $ ( this ).innerWidth();
+						var content_counter = 0; // this is a counter accumulating +1
+						var space_betweens = 4; // a pixel guess of the space between two inline blocks, depends on browser?
+						var misc_adjustor = 1; // do you want to reduce the spacer width any more pixels?
+						var this_row_id = $ ( this ).attr ( "id" );
+						var spacer_counter = $( "#" + this_row_id + " .row_spacer").length;
+
+						$ ( "#" + this_row_id + " .row_content" ).each ( function () {
+							content_width_total = content_width_total + $( this ).outerWidth( true );
+							content_counter = content_counter + 1;
+						});
+
+						var spacer_width = ( row_width - content_width_total ) / spacer_counter;
+						spacer_width -= 0.5; // we want to round down, not round up
+						spacer_width = Math.round ( spacer_width );
+
+						// experiencing annoying width discrepencies in JQuery
+						// only an issue if there are less spacers than contents
+						spacer_width -= ( 2 * space_betweens );
+						if ( spacer_counter < content_counter ) {
+							spacer_width -= misc_adjustor;
+						}
+
+						$ ( "#" + this_row_id + " .row_spacer" ).outerWidth ( spacer_width );
+					});
+				}
+
+				// set height of bottom spacers for pages
+				if ( $.CXEpage.env.g_popup_visible ) {
+					$.CXEpage.methods.set_page_heights ( false );
+				}
+				else {
+					$.CXEpage.methods.set_page_heights ( true );
+				}
+
+				// set "popup" left position
+				$.CXEpage.methods.popup_left_set ();
+
+				// set "popup_content_area" height and width
+				$.CXEpage.env.g_popup_content_area_width = $ ( "#popup" ).width() - ( 2 * $.CXEpage.env.g_popup_content_area_border_width );
+				$.CXEpage.env.g_popup_content_area_height = $.CXEpage.env.g_viewport_height - $.CXEpage.env.g_popup_topdock_height - ( 2 * $.CXEpage.env.g_popup_content_area_border_width );
+				$ ( "#popup_content_area" ).width ( $.CXEpage.env.g_popup_content_area_width );
+				$ ( "#popup_content_area" ).height ( $.CXEpage.env.g_popup_content_area_height );
+				// one of these isn't working on fresh loads, so just use a general adjust below:  $( "#popup_content_guide_text" ).outerHeight( true ) - $( "popup_content_guide_hr" ).outerHeight( true )
+				$ ( "#popup_content" ).height ( $.CXEpage.env.g_popup_content_area_height - ( 2 * $.CXEpage.env.g_popup_content_area_border_width ) - $.CXEpage.env.g_popup_content_height_adjustor );
+
+				// scale down the scalable items
+				$( ".scalable" ).each ( function () {
+					if ( $.CXEpage.env.g_hidden ) {
+						$( this ).removeAttr( "style" ).effect ();
+						var element_width = $( this ).width();
+						var new_width = ( ( ( $.CXEpage.env.g_viewport_width * ( 1 - $.CXEpage.env.g_scaling_adjustor ) ) / element_width ) * 100 ) - 0.5;
+						if ( new_width < 100 ) {
+							new_width = Math.round( new_width );
+							$( this ).effect( "scale" , { percent: new_width , scale: 'both' } , 250 );
+						}
+					}
+					else {
+						$( this ).removeAttr( "style" ).effect ();
+					}
+				});
+
+			},
+
+			set_page_heights: function ( bool_on ) {
+				$ ( ".page" ).each ( function (i) {
+					$ ( this ).height( 'auto' ); // needed to determine natural height
+					$.CXEpage.env.g_viewport_height_min = Math.max ( $ ( this ).height() , $.CXEpage.env.g_viewport_height_min );
+				});
+				if ( bool_on ) {
+					// we want the height of all pages to be the same, max height
+					$ ( ".page" ).height ( Math.max ( $.CXEpage.env.g_viewport_height_min , $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_viewport_height_extra ) );
+				}
+				else {
+					// we want the page height to be the height of the viewport
+					// $ ( ".page" ).height ( Math.max ( $.CXEpage.env.g_viewport_height_min , $.CXEpage.env.g_viewport_height ) );
+					// $ ( ".page" ).height ( $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar );
+					$ ( ".page" ).height ( Math.max ( $ ( "#popup_content" )[0].scrollHeight + ( 2 * $.CXEpage.env.g_popup_content_area_border_width ) + $.CXEpage.env.g_popup_topdock_height + $.CXEpage.env.g_popup_content_height_adjustor , $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar ) );
+				}
+			},
+
+			popup_left_set: function () {
+				$.CXEpage.env.g_popup_left = Math.round ( ( $.CXEpage.env.g_viewport_width - $ ( "#popup" ).width() ) / 2 );
+				// $( "#popup" ).offset ( { top: 0, left: $.CXEpage.env.g_popup_left } ); // annoying me!!
+				$( "#popup" ).css( "left" , $.CXEpage.env.g_popup_left.toString() + "px" );
+			},
+
+			scroll_to_id: function ( id ) {
+				// expects id to be missing the # - it should just be the name of the ID in a string
+				$( "html,body" ).animate ( { scrollTop: $( "#" + id ).offset().top } , $.CXEpage.env.g_page_scroll_speed );
 			}
-
-			$ ( "#" + this_row_id + " .row_spacer" ).outerWidth ( spacer_width );
-		});
-	}
-
-	// set height of bottom spacers for pages
-	if ( g_popup_visible ) {
-		set_page_heights ( false );
-	}
-	else {
-		set_page_heights ( true );
-	}
-
-	// set "popup" left position
-	popup_left_set ();
-
-	// set "popup_content_area" height and width
-	g_popup_content_area_width = $ ( "#popup" ).width() - ( 2 * g_popup_content_area_border_width );
-	g_popup_content_area_height = g_viewport_height - g_popup_topdock_height - ( 2 * g_popup_content_area_border_width );
-	$ ( "#popup_content_area" ).width ( g_popup_content_area_width );
-	$ ( "#popup_content_area" ).height ( g_popup_content_area_height );
-	// one of these isn't working on fresh loads, so just use a general adjust below:  $( "#popup_content_guide_text" ).outerHeight( true ) - $( "popup_content_guide_hr" ).outerHeight( true )
-	$ ( "#popup_content" ).height ( g_popup_content_area_height - ( 2 * g_popup_content_area_border_width ) - g_popup_content_height_adjustor );
-
-	// scale down the scalable items
-	$( ".scalable" ).each ( function () {
-		if ( g_hidden ) {
-			$( this ).removeAttr( "style" ).effect ();
-			var element_width = $( this ).width();
-			var new_width = ( ( ( g_viewport_width * ( 1 - g_scaling_adjustor ) ) / element_width ) * 100 ) - 0.5;
-			if ( new_width < 100 ) {
-				new_width = Math.round( new_width );
-				$( this ).effect( "scale" , { percent: new_width , scale: 'both' } , 250 );
-			}
 		}
-		else {
-			$( this ).removeAttr( "style" ).effect ();
-		}
-	});
-
-};
-
-function set_page_heights ( bool_on ) {
-	$ ( ".page" ).each ( function (i) {
-		$ ( this ).height( 'auto' ); // needed to determine natural height
-		g_viewport_height_min = Math.max ( $ ( this ).height() , g_viewport_height_min );
-	});
-	if ( bool_on ) {
-		// we want the height of all pages to be the same, max height
-		$ ( ".page" ).height ( Math.max ( g_viewport_height_min , g_viewport_height + g_viewport_height_extra ) );
-	}
-	else {
-		// we want the page height to be the height of the viewport
-		// $ ( ".page" ).height ( Math.max ( g_viewport_height_min , g_viewport_height ) );
-		// $ ( ".page" ).height ( g_viewport_height + g_make_sure_scrollbar );
-		$ ( ".page" ).height ( Math.max ( $ ( "#popup_content" )[0].scrollHeight + ( 2 * g_popup_content_area_border_width ) + g_popup_topdock_height + g_popup_content_height_adjustor , g_viewport_height + g_make_sure_scrollbar ) );
-	}
-}
-
-function popup_left_set () {
-	g_popup_left = Math.round ( ( g_viewport_width - $ ( "#popup" ).width() ) / 2 );
-	// $( "#popup" ).offset ( { top: 0, left: g_popup_left } ); // annoying me!!
-	$( "#popup" ).css( "left" , g_popup_left.toString() + "px" );
-};
-
-function scroll_to_id ( id ) {
-	// expects id to be missing the # - it should just be the name of the ID in a string
-	$( "html,body" ).animate ( { scrollTop: $( "#" + id ).offset().top } , g_page_scroll_speed );
-};
+	};
+}) (jQuery);

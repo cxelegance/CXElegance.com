@@ -5,41 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- Welcome to CXElegance.com, at this point I'm embarrassed that you
-	are looking at this code, I will be completely overhauling it -->
-
-<!-- VERSION: 1.5.2; 2013-04-14
-
-- transitional, working toward complete overhaul
-
-end of VERSION -->
-
-<!-- TO DO LIST
-
-* this website needs a complete overhaul
-* a COMPLETE REDO of JavaScript is underway
-- get rid of div scrolling, mousewheeling, etc.
-- make better use of HTML5 data-attributes
-- fix portfolio image width discrepancy (chrome firefox)
-- on super narrow pages, fix portfolio images and title extending past, causing scrollbar
-- stop scalable things shrinking to nothing on IPhone
-	or get rid of scaling, because also buggy on Android 2.2
-- replace page #'s with real text page names (carefully, javascript)
-- consider minifying css/js/html (it's being sent compressed now, which is good)
-- w3c validate css/jscript/HTML
-- load bg and img images after page is ready and shown (do this in jquery document ready)
-- get rid of pop up fixed div, implement new solution that is more touch screen/Android/IOS friendly
-- get rid of jQueryUI, currently being used for method: effect()
-- consider replacing CSS nth-childs with more specific selectors
-
-end of TO DO LIST -->
+<!-- Welcome to CXElegance.com, this code is being developed still;
+	please see my jQuery code (below) for TODO list
+	please find link to changelog below, as well -->
 
 <meta name="description" content="Web development and technical services, including data organization, websites, content management, and application development.">
 <meta name="keywords" content="jQuery, PHP, OOP, HTML, CSS, XML, Git, website, webpage, JavaScript, backups, data, organization, architecture, CMS, content, management, technical, freelance, services">
 <meta name="author" content="Jesse CXElegance">
 
 <!-- ensure smartphones don't try to zoom in automatically, and disable scaling so Android 2.2 and others work with fixed div -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
 
 <!-- offer a nice smartphone icon - 158 × 158 pixels -->
 	<link rel="apple-touch-icon" href="01_pics/12_iphone.png">
@@ -59,6 +34,9 @@ end of TO DO LIST -->
 
 <!-- load my custom jQuery/JavaScript code -->
 	<script type="text/javascript" src="03_js/02_my_jquery.js"></script>
+
+<!-- load my changelog, this is for you if you are a developer and are reading this -->
+	<script type="text/javascript" src="03_js/03_changelog.js"></script>
 
 <!-- load my custom CSS LESS -->
 	<link rel="stylesheet/less" type="text/css" href="02_css/03_my.css" title="main">
@@ -84,9 +62,9 @@ end of TO DO LIST -->
 				<a id="next" href="#" class="topdock_text bordered">&gt;&gt;</a>
 			</div>
 			<div class="floatleft">
-				<a href="#page1" class="topdock_text bordered linky">&lt;home&gt;</a>
-				<a href="#contact" class="topdock_text bordered hideable linky">&lt;contact&gt;</a>
-				<a href="#services" class="topdock_text bordered hideable linky">&lt;services&gt;</a>
+				<a href="#page1" class="topdock_text bordered linkyhome">&lt;home&gt;</a>
+				<a href="#contact" class="topdock_text bordered hideable linkyhome">&lt;contact&gt;</a>
+				<a href="#services" class="topdock_text bordered hideable linkyhome">&lt;services&gt;</a>
 				<a href="#page4" class="topdock_text bordered hideable linky">&lt;portfolio&gt;</a>
 			</div>
 			<div class="clearfloat">
@@ -94,45 +72,12 @@ end of TO DO LIST -->
 		</div>
 	</div>
 
-	<div id="modal_screen" class="hidden">
-
-	</div>
-
-	<div id="popup" class="hidden">
-
-		<div id="popup_topdock" class="font_yanone">
-			<div class="floatright">
-				<a id="popup_up" class="topdock_text bordered">&lt;</a>
-				<a id="popup_down" class="topdock_text bordered">&gt;</a>
-				<a id="popup_back" class="topdock_text bordered hideable">&lt;&lt;</a>
-				<a id="popup_next" class="topdock_text bordered hideable">&gt;&gt;</a>
-				<a id="popup_close" class="topdock_text bordered">&gt;&lt;</a>
-			</div>
-			<div class="floatleft">
-				<a href="#" class="linky topdock_text bordered">&lt;home&gt;</a>
-			</div>
-			<div class="clearfloat">
-			</div>
-		</div>
-
-		<div id="popup_content_area">
-			<div id="popup_content_guide_text" class="font_yanone">
-				<span>title</span>
-			</div>
-			<div id="popup_content_guide_hr" class="centered">
-				<!-- horizontal line -->
-			</div>
-			<div id="popup_content" class="bordered">
-				<!-- JavaScript will populate this area -->
-			</div>
-		</div>
-
-	</div>
-
 	<div id="page1" class="page">
 
 		<div class="top_spacer">
 		</div>
+
+		<div class="detail_display"></div>
 
 		<div class="content_area_narrower centered bordered">
 
@@ -347,6 +292,8 @@ end of TO DO LIST -->
 		<div class="top_spacer">
 		</div>
 
+		<div class="detail_display"></div>
+
 		<div class="content_area centered bordered">
 
 			<div id="row5" class="row centered bordered">
@@ -462,6 +409,8 @@ end of TO DO LIST -->
 
 		<div class="top_spacer">
 		</div>
+
+		<div class="detail_display"></div>
 
 		<div class="content_area centered bordered">
 
@@ -883,6 +832,8 @@ end of TO DO LIST -->
 		<div class="top_spacer">
 		</div>
 
+		<div class="detail_display"></div>
+
 		<div class="content_area centered bordered">
 
 			<div id="row11" class="row centered bordered">
@@ -983,6 +934,8 @@ end of TO DO LIST -->
 		<div class="top_spacer">
 		</div>
 
+		<div class="detail_display"></div>
+
 		<div class="content_area centered bordered">
 
 			<div id="row13" class="row centered bordered">
@@ -1080,6 +1033,8 @@ end of TO DO LIST -->
 		<div class="top_spacer">
 		</div>
 
+		<div class="detail_display"></div>
+
 		<div class="content_area centered bordered">
 
 			<div id="row15" class="row centered bordered">
@@ -1175,6 +1130,8 @@ end of TO DO LIST -->
 
 		<div class="top_spacer">
 		</div>
+
+		<div class="detail_display"></div>
 
 		<div class="content_area centered bordered">
 
