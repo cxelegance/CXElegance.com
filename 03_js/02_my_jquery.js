@@ -1,8 +1,6 @@
-/*
 <?php
     include ($_SERVER['DOCUMENT_ROOT'] . "/compress.php");
 ?>
-*/
 
 // *****
 // CXElegance.com
