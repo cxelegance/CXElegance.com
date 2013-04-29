@@ -1,0 +1,5 @@
+# tracking small jpeg images, png images... but let's skip any movies
+*.mov
+*.mpg
+*.avi
+*.mp4
