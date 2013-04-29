@@ -21,6 +21,7 @@
 //		- clean up what's left of old div scrolling, mousewheeling, etc. (HTML, CSS, JavaScript)
 //		- replace page #'s with real text page names (and see if any detail names are too generic)
 //		- details display
+//			- if not visible, don't waste time animating a close/hide before showing (as per request)
 //			- after showing details, recalc the page heights
 //				- recalc again after hiding details
 //				- now, or future version, this page height equalization feature needs to be overhauled
