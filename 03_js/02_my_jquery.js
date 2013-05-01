@@ -46,6 +46,7 @@
 //		- fix bug: sometimes browser needs a resize to spur proper width space calculations
 //			- e.g. sometimes text on right of portfolio images is below images, even though there is space
 //			- now is maybe time to overhaul this feature?
+//		- fix bug: Chrome won't put Testimonials side-by-side but Firefox does...
 //	- Version 1.5.6:
 //		- rethink fixed topdock... better way?
 //		 	- could just have this at the top of every "page", eliminating the need for fixation
