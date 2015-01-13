@@ -1,8 +1,14 @@
+Options All -Indexes
+
 # compress html, javascript, css, xml using PHP?:
 # the gzip php request is in each file
-AddHandler php-script .htm .html .css .js
-AddHandler application/x-httpd-php5 .htm .html .css .js
-Options All -Indexes
+<ifModule mod_fcgid.c>
+AddHandler fcgid-script .html .htm .css .js
+FcgidWrapper "/dh/cgi-system/php53.cgi" .html
+FcgidWrapper "/dh/cgi-system/php53.cgi" .htm
+FcgidWrapper "/dh/cgi-system/php53.cgi" .css
+FcgidWrapper "/dh/cgi-system/php53.cgi" .js
+</ifModule>
 
 # BEGIN Expire headers
 <ifModule mod_expires.c>
