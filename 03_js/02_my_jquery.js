@@ -184,9 +184,9 @@ $(function () { // on document load/ready
 		$.CXEpage.methods.shift_detail( -1 );
 	});
 
-	$( "#popup_close" ).click ( function (e) { 
+	$( "#popup_close" ).click ( function (e) {
 		// Prevent a page reload when a link is pressed
-		e.preventDefault(); 
+		e.preventDefault();
 		// Call the scroll function
 		$.CXEpage.methods.follow_link ( "page" + $.CXEpage.env.g_current_page.toString() );
 	});
@@ -348,7 +348,7 @@ Number.prototype.mod = function (n) {
 					methods.external.goTo.apply (that, [{
 						page: {
 							num: that.CXE.env.currentPage + 1
-						}, 
+						},
 						callback: options && options.callback ? options.callback : function () {} // TODO is callback a function?
 					}]);
 				});
@@ -360,7 +360,7 @@ Number.prototype.mod = function (n) {
 					methods.external.goTo.apply (that, [{
 						page: {
 							num: that.CXE.env.currentPage - 1
-						}, 
+						},
 						callback: options && options.callback ? options.callback : function () {} // TODO is callback a function?
 					}]);
 				});
@@ -386,7 +386,7 @@ Number.prototype.mod = function (n) {
 				});
 			},
 			goTo: function (options) {
-				// 
+				//
 				// options: { // example
 				//	page: {
 				//		num: 3,
@@ -465,7 +465,7 @@ Number.prototype.mod = function (n) {
 					};
 
 					// hide any details, then route for page, and route for detail as callback
-					methods.internal._hideDetail.apply (that, [function () {	
+					methods.internal._hideDetail.apply (that, [function () {
 						intMethods.handlePage (options ? options : {});
 					}]);
 				});

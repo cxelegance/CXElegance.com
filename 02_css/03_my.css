@@ -201,7 +201,7 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 #topdock>div>.floatright>.topdock_text {
 	padding: 4px 13px 19px 10px;
 }
-a.linky[href="#cx"] { 
+a.linky[href="#cx"] {
 	position: relative;
 	top: 17px;
 }
@@ -271,7 +271,7 @@ a.linky[href="#cx"] {
 
 #page2 {
 	background-color: @color_wispy_clouds;
-	color: @color_birdymachine; 
+	color: @color_birdymachine;
 	background-image: url('../01_pics/06_page2_bg.png');
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -329,7 +329,7 @@ a.linky[href="#cx"] {
 
 #page3 {
 	background-color: @color_my_white;
-	color: @color_birdymachine; 
+	color: @color_birdymachine;
 	background-image: url('../01_pics/07_page3_bg.png');
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -489,7 +489,7 @@ a.linky[href="#cx"] {
 
 #page4, #page8 {
 	background-color: @color_creamsicle;
-	color: @color_birdymachine; 
+	color: @color_birdymachine;
 	background-image: url('../01_pics/10_page4_bg.png');
 	.linkstyle {
 		color: @color_wispy_clouds;
@@ -524,7 +524,7 @@ a.linky[href="#cx"] {
 
 #page5 {
 	background-color: @color_bridal_tuesday;
-	color: @color_birdymachine; 
+	color: @color_birdymachine;
 	background-image: url('../01_pics/13_page5_bg.png');
 	.linkstyle {
 		color: @color_creamsicle;
