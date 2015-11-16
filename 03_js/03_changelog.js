@@ -1,6 +1,3 @@
-<?php
-    include ($_SERVER['DOCUMENT_ROOT'] . "/compress.php");
-?>
 // *****
 // Change Log (changelog) for CXElegance.com
 //
