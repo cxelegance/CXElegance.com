@@ -12,6 +12,7 @@
 
 // *****
 // TODO list / Milestones
+//    SKIP AHEAD TO Version 2.0
 //
 //	- Version 1.5.4:
 //		- clean up what's left of old div scrolling, mousewheeling, etc. (HTML, CSS, JavaScript)
@@ -66,6 +67,25 @@
 //		 	- also JSlint
 //
 // *****
+
+/*
+ * Milestones for Version 2.x (major.minor, no build)
+ *
+ *    - Version 2.0:
+ *       - rid of all bottom stuff: bio through toolkit
+ *       - rid of top nav bar
+ *       - rid of all pages except testimonials
+ *       - link to github, to linkedIn
+ *       - (link to hackerrank, to codility)?
+ *
+ *    - Version 2.01:
+ *       - rid of resizing of images: use vectors
+ *       - simplest form of responsive width/design
+ *
+ *    - Version 2.02:
+ *       - clean, refactor, refine
+ *       - if continuing to use LESS, then compile it and serve compiled
+ */
 
 $(function () { // on document load/ready
 
