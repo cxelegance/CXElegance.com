@@ -98,24 +98,15 @@ $(function () { // on document load/ready
 		scrollBody: $('body, html') // this probably shouldn't be an option
 	});
 
-	//\$.CXEpage.env.g_animateID = self.setInterval( "$.CXEpage.methods.animate_guiding_links ()" , $.CXEpage.env.g_guiding_links_frequency );
-
 	// our first page load is similar to a page resize
 		$.CXEpage.methods.viewport_size_changed ();
-		//\$.CXEpage.methods.initial_URL_place ();
-		//\$.CXEpage.methods.goto_URL_place ();
 
 	$( window ).resize( function() {
 		$.CXEpage.methods.viewport_size_changed ();
-		//\$.CXEpage.methods.goto_URL_place ();
 	});
 
 	$( ".linky" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		// strip the "#" from the link
-		// then go to the link
-		//\$.CXEpage.methods.follow_link ( $( this ).attr( "href" ).substr( 1 ) );
 		$('body').CXEpage ('goTo', {
 			page: { // I dunno if this is a page link or a detail link
 				URL: $(this).attr ('href').substr (1)
@@ -129,10 +120,6 @@ $(function () { // on document load/ready
 
 	$( ".linkyhome" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		// strip the "#" from the link
-		// then go to the link
-		//\$.CXEpage.methods.follow_link ( $( this ).attr( "href" ).substr( 1 ) );
 		$('body').CXEpage ('goTo', {
 			page: { // I dunno if this is a page link or a detail link
 				num: 0
@@ -140,30 +127,22 @@ $(function () { // on document load/ready
 			detail: {
 				URL: $(this).attr ('href').substr (1)
 			}//,
-			//callback: function () {console.log ('linky was actioned');}
 		});
 	});
 
 	$( "#next" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		//\$.CXEpage.methods.shift_page( 1 );
 		$('body').CXEpage ('nextPage', {
-			//callback: function () {console.log ('next was actioned');}
 		});
 	});
 
 	$( "#back" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		//\$.CXEpage.methods.shift_page( -1 );
 		$('body').CXEpage ('prevPage', {
-			//callback: function () {console.log ('back was clicked and actioned');}
 		});
 	});
 
 	$( "#popup_up" ).mouseup( function () {
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_scrollID );
 	});
 
 	$( "#popup_up" ).mousedown( function () {
@@ -175,7 +154,6 @@ $(function () { // on document load/ready
 	});
 
 	$( "#popup_down" ).mouseup( function () {
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_scrollID );
 	});
 
 	$( "#popup_down" ).mousedown( function () {
@@ -664,7 +642,6 @@ Number.prototype.mod = function (n) {
 
 					// load the modal popup contents
 					$( "#popup_content" ).html( $( "#" + $.CXEpage.env.g_current_URL_place ).html() );
-					// $( "#popup_title" ).html( $.CXEpage.env.g_current_URL_place ); // got rid of this, having a home link now
 					if ( !$.CXEpage.env.g_popup_visible ) {
 						$.CXEpage.methods.toggle_popup_visible ();
 					}
@@ -804,15 +781,12 @@ Number.prototype.mod = function (n) {
 				}
 				else {
 					// we want the page height to be the height of the viewport
-					// $ ( ".page" ).height ( Math.max ( $.CXEpage.env.g_viewport_height_min , $.CXEpage.env.g_viewport_height ) );
-					// $ ( ".page" ).height ( $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar );
 					$ ( ".page" ).height ( Math.max ( $ ( "#popup_content" )[0].scrollHeight + ( 2 * $.CXEpage.env.g_popup_content_area_border_width ) + $.CXEpage.env.g_popup_topdock_height + $.CXEpage.env.g_popup_content_height_adjustor , $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar ) );
 				}
 			},
 
 			popup_left_set: function () {
 				$.CXEpage.env.g_popup_left = Math.round ( ( $.CXEpage.env.g_viewport_width - $ ( "#popup" ).width() ) / 2 );
-				// $( "#popup" ).offset ( { top: 0, left: $.CXEpage.env.g_popup_left } ); // annoying me!!
 				$( "#popup" ).css( "left" , $.CXEpage.env.g_popup_left.toString() + "px" );
 			},
 
