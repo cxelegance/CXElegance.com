@@ -378,10 +378,14 @@ Number.prototype.mod = function (n) {
 			hideDetail: function (options) {
 				return this.each (function () {
 					var that = $(this);
+					var fnCallback = function(){
+						if(typeof options == 'object' && options !== null && typeof options.callback == 'function'){
+							options.callback();
+						}
+						methods.internal._setURL ('page' + (that.CXE.env.currentPage + 1));
+					};
 					methods.internal._getEnv.apply (that, []);
-					methods.internal._hideDetail.apply (that, [
-						options && options.callback ? options.callback : function () {} // TODO is callback a function?
-					]);
+					methods.internal._hideDetail.apply (that, [fnCallback]);
 				});
 			},
 			goTo: function (options) {
