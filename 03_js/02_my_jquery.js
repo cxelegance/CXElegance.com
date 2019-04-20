@@ -80,7 +80,12 @@
  *
  *    - Version 2.01:
  *       - rid of resizing of images: use vectors
- *       - simplest form of responsive width/design
+ *       - simplest form of responsive width/design: flex grid?
+ *       - details should open underneath their link
+ *          - scroll to top of the details container
+ *          - rid of top bar
+ *          - close with a finger-sized X at top , or double-click
+ *          - background of page/image/colour expands vertically as needed for long details
  *
  *    - Version 2.02:
  *       - clean, refactor, refine
