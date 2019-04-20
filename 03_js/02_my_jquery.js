@@ -398,13 +398,15 @@ Number.prototype.mod = function (n) {
 
 					intMethods = {
 						handlePage: function (options) {
+							var defaultIndex;
 							if (options && options.page) {
 								if (options.page.URL) {
 									index = $.inArray (options.page.URL, that.CXE.env.pageMap);
+									defaultIndex = that.CXE.env.detailPageMap[that.CXE.env.detailMap.indexOf(options.page.URL)];
 									methods.internal._scrollTo.apply (that, [
-										index > -1 ? options.page.URL : that.CXE.env.pageMap[that.CXE.env.currentPage],
+										index > -1 ? options.page.URL : that.CXE.env.pageMap[defaultIndex],
 										function () {
-											that.CXE.env.currentPage = index > -1 ? index : that.CXE.env.currentPage;
+											that.CXE.env.currentPage = index > -1 ? index : defaultIndex;
 											index > -1 ? methods.internal._setURL (options.page.URL) : (function () {}) ();
 											if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
 											else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
