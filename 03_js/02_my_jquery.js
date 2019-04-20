@@ -76,7 +76,6 @@
  *       - rid of top nav bar
  *       - rid of all pages except testimonials
  *       - link to github, to linkedIn
- *       - (link to hackerrank, to codility)?
  *
  *    - Version 2.01:
  *       - rid of resizing of images: use vectors
@@ -86,6 +85,7 @@
  *          - rid of top bar
  *          - close with a finger-sized X at top , or double-click
  *          - background of page/image/colour expands vertically as needed for long details
+ *       - (link to hackerrank, to codility)?
  *
  *    - Version 2.02:
  *       - clean, refactor, refine
