@@ -12,6 +12,7 @@
 
 // *****
 // TODO list / Milestones
+//    SKIP AHEAD TO Version 2.0
 //
 //	- Version 1.5.4:
 //		- clean up what's left of old div scrolling, mousewheeling, etc. (HTML, CSS, JavaScript)
@@ -67,6 +68,24 @@
 //
 // *****
 
+/*
+ * Milestones for Version 2.x (major.minor, no build)
+ *
+ *    - Version 2.01:
+ *       - rid of resizing of images: use vectors
+ *       - simplest form of responsive width/design: flex grid?
+ *       - details should open underneath their link
+ *          - scroll to top of the details container
+ *          - rid of top bar
+ *          - close with a finger-sized X at top , or double-click
+ *          - background of page/image/colour expands vertically as needed for long details
+ *       - (link to hackerrank, to codility)?
+ *
+ *    - Version 2.02:
+ *       - clean, refactor, refine
+ *       - if continuing to use LESS, then compile it and serve compiled
+ */
+
 $(function () { // on document load/ready
 
 	$('body').CXEpage ({ // watch for event 'detailComplete.CXEpage'; it announces when detail (show/hide) animations are complete
@@ -78,24 +97,15 @@ $(function () { // on document load/ready
 		scrollBody: $('body, html') // this probably shouldn't be an option
 	});
 
-	//\$.CXEpage.env.g_animateID = self.setInterval( "$.CXEpage.methods.animate_guiding_links ()" , $.CXEpage.env.g_guiding_links_frequency );
-
 	// our first page load is similar to a page resize
 		$.CXEpage.methods.viewport_size_changed ();
-		//\$.CXEpage.methods.initial_URL_place ();
-		//\$.CXEpage.methods.goto_URL_place ();
 
 	$( window ).resize( function() {
 		$.CXEpage.methods.viewport_size_changed ();
-		//\$.CXEpage.methods.goto_URL_place ();
 	});
 
 	$( ".linky" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		// strip the "#" from the link
-		// then go to the link
-		//\$.CXEpage.methods.follow_link ( $( this ).attr( "href" ).substr( 1 ) );
 		$('body').CXEpage ('goTo', {
 			page: { // I dunno if this is a page link or a detail link
 				URL: $(this).attr ('href').substr (1)
@@ -109,10 +119,6 @@ $(function () { // on document load/ready
 
 	$( ".linkyhome" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		// strip the "#" from the link
-		// then go to the link
-		//\$.CXEpage.methods.follow_link ( $( this ).attr( "href" ).substr( 1 ) );
 		$('body').CXEpage ('goTo', {
 			page: { // I dunno if this is a page link or a detail link
 				num: 0
@@ -120,30 +126,22 @@ $(function () { // on document load/ready
 			detail: {
 				URL: $(this).attr ('href').substr (1)
 			}//,
-			//callback: function () {console.log ('linky was actioned');}
 		});
 	});
 
 	$( "#next" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		//\$.CXEpage.methods.shift_page( 1 );
 		$('body').CXEpage ('nextPage', {
-			//callback: function () {console.log ('next was actioned');}
 		});
 	});
 
 	$( "#back" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
 		event.preventDefault ();
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_animateID );
-		//\$.CXEpage.methods.shift_page( -1 );
 		$('body').CXEpage ('prevPage', {
-			//callback: function () {console.log ('back was clicked and actioned');}
 		});
 	});
 
 	$( "#popup_up" ).mouseup( function () {
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_scrollID );
 	});
 
 	$( "#popup_up" ).mousedown( function () {
@@ -155,7 +153,6 @@ $(function () { // on document load/ready
 	});
 
 	$( "#popup_down" ).mouseup( function () {
-		//\$.CXEpage.methods.cancel_window_timer ( $.CXEpage.env.g_scrollID );
 	});
 
 	$( "#popup_down" ).mousedown( function () {
@@ -375,10 +372,14 @@ Number.prototype.mod = function (n) {
 			hideDetail: function (options) {
 				return this.each (function () {
 					var that = $(this);
+					var fnCallback = function(){
+						if(typeof options == 'object' && options !== null && typeof options.callback == 'function'){
+							options.callback();
+						}
+						methods.internal._setURL ('page' + (that.CXE.env.currentPage + 1));
+					};
 					methods.internal._getEnv.apply (that, []);
-					methods.internal._hideDetail.apply (that, [
-						options && options.callback ? options.callback : function () {} // TODO is callback a function?
-					]);
+					methods.internal._hideDetail.apply (that, [fnCallback]);
 				});
 			},
 			goTo: function (options) {
@@ -400,13 +401,15 @@ Number.prototype.mod = function (n) {
 
 					intMethods = {
 						handlePage: function (options) {
+							var defaultIndex;
 							if (options && options.page) {
 								if (options.page.URL) {
 									index = $.inArray (options.page.URL, that.CXE.env.pageMap);
+									defaultIndex = that.CXE.env.detailPageMap[that.CXE.env.detailMap.indexOf(options.page.URL)];
 									methods.internal._scrollTo.apply (that, [
-										index > -1 ? options.page.URL : that.CXE.env.pageMap[that.CXE.env.currentPage],
+										index > -1 ? options.page.URL : that.CXE.env.pageMap[defaultIndex],
 										function () {
-											that.CXE.env.currentPage = index > -1 ? index : that.CXE.env.currentPage;
+											that.CXE.env.currentPage = index > -1 ? index : defaultIndex;
 											index > -1 ? methods.internal._setURL (options.page.URL) : (function () {}) ();
 											if (options.detail) intMethods.handleDetail (options.detail, options.callback ? options.callback : function () {}); // TODO is callback a function?
 											else options.callback ? options.callback () : (function () {}) (); // TODO is callback a function?
@@ -644,7 +647,6 @@ Number.prototype.mod = function (n) {
 
 					// load the modal popup contents
 					$( "#popup_content" ).html( $( "#" + $.CXEpage.env.g_current_URL_place ).html() );
-					// $( "#popup_title" ).html( $.CXEpage.env.g_current_URL_place ); // got rid of this, having a home link now
 					if ( !$.CXEpage.env.g_popup_visible ) {
 						$.CXEpage.methods.toggle_popup_visible ();
 					}
@@ -784,15 +786,12 @@ Number.prototype.mod = function (n) {
 				}
 				else {
 					// we want the page height to be the height of the viewport
-					// $ ( ".page" ).height ( Math.max ( $.CXEpage.env.g_viewport_height_min , $.CXEpage.env.g_viewport_height ) );
-					// $ ( ".page" ).height ( $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar );
 					$ ( ".page" ).height ( Math.max ( $ ( "#popup_content" )[0].scrollHeight + ( 2 * $.CXEpage.env.g_popup_content_area_border_width ) + $.CXEpage.env.g_popup_topdock_height + $.CXEpage.env.g_popup_content_height_adjustor , $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar ) );
 				}
 			},
 
 			popup_left_set: function () {
 				$.CXEpage.env.g_popup_left = Math.round ( ( $.CXEpage.env.g_viewport_width - $ ( "#popup" ).width() ) / 2 );
-				// $( "#popup" ).offset ( { top: 0, left: $.CXEpage.env.g_popup_left } ); // annoying me!!
 				$( "#popup" ).css( "left" , $.CXEpage.env.g_popup_left.toString() + "px" );
 			},
 
