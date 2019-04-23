@@ -1,6 +1,12 @@
 /*
  * Change Log (changelog for CXElegance.com)
  *
+ * VERSION: 2.0; 2019-04-23
+ *    - rid of all bottom stuff: bio through toolkit
+ *    - rid of top nav bar
+ *    - rid of all pages except testimonials
+ *    - link to github, to linkedIn
+ *
  * VERSION: 1.5.3; 2013-04-27
  *    - started the changelog (this JS doc)
  *    - stopped adapting to narrow screens, for now, because features need improving to make this "nice"

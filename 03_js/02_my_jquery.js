@@ -71,12 +71,6 @@
 /*
  * Milestones for Version 2.x (major.minor, no build)
  *
- *    - Version 2.0:
- *       - rid of all bottom stuff: bio through toolkit
- *       - rid of top nav bar
- *       - rid of all pages except testimonials
- *       - link to github, to linkedIn
- *
  *    - Version 2.01:
  *       - rid of resizing of images: use vectors
  *       - simplest form of responsive width/design: flex grid?
