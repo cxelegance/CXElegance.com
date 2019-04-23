@@ -1,2 +1,8 @@
 sync.py
 **/.DS_Store
+*.mov
+*.mpg
+*.avi
+*.mp4
+*.ogv
+*.ogg
