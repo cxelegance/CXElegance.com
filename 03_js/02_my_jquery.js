@@ -69,9 +69,9 @@
 // *****
 
 /*
- * Milestones for Version 2.x (major.minor, no build)
+ * Milestones for Version 2.0
  *
- *    - Version 2.01:
+ *    - Version 2.0.1:
  *       - rid of resizing of images: use vectors
  *       - simplest form of responsive width/design: flex grid?
  *       - details should open underneath their link
@@ -81,7 +81,7 @@
  *          - background of page/image/colour expands vertically as needed for long details
  *       - (link to hackerrank, to codility)?
  *
- *    - Version 2.02:
+ *    - Version 2.0.2:
  *       - clean, refactor, refine
  *       - if continuing to use LESS, then compile it and serve compiled
  */
