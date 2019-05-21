@@ -72,18 +72,37 @@
  * Milestones for Version 2.0
  *
  *    - Version 2.0.1:
- *       - rid of resizing of images: use vectors
- *       - simplest form of responsive width/design: flex grid?
- *       - details should open underneath their link
- *          - scroll to top of the details container
- *          - rid of top bar
- *          - close with a finger-sized X at top , or double-click
- *          - background of page/image/colour expands vertically as needed for long details
- *       - (link to hackerrank, to codility)?
+ *       - correct the resizing of "scalable" elements:
+ *          - search for "scalable" - it's the underline below CXElegance, plus the headings CXElegance and Testimonials
+ *          - these don't work right
+ *          - attempt: use the CSS3 transform property with "scale"
+ *       - simplest form of responsive width/design: probably flexbox, perhaps grid
+ *       - link to hackerrank, codility
  *
  *    - Version 2.0.2:
- *       - clean, refactor, refine
+ *       - keep click-to-read-more only for testimonials, which have a lot of text
+ *          - extra text should open underneath the main, click-to-read-more text
+ *             - scrolltop should animate to top click-to-read-more text
+ *             - rid of top bar, title, and title underline
+ *             - close by clicking on any part of the extra text's container
+ *             - background of page/image/colour expands vertically as needed for long details
+ *       - links – creative, fun, reliable, proactive, and the Client eXperience – are all part of mission statement
+ *          - each should have its blurb under its heading, NO CLICKING, just scrolling vertically
+ *       - after the mission statements: How can CXElegance help you?
+ *          - go with questions, stick with the voice of the mission statements
+ *             - Do you need a skilled hand to develop a module in your project?
+ *             - Do you want to find your data quickly?
+ *             - Do you want painless, reliable backups?
+ *             - Do you want to learn to code web apps?
+ *
+ *    - Version 2.0.3:
+ *       - general refactoring
+ *       	- rid of jQuery plugin for page scrolling
+ *       	- rid of CXEPage, but then recreate the namespace for any public-facing methods or props required
+ *       - move 03_js/02_my_jquery.js to 03_js/cxe.js
+ *       - move 03_js/03_changelog.js to /changelog.txt|md or RESEARCH BEST PRACTICES for changelog
  *       - if continuing to use LESS, then compile it and serve compiled
+ *       - serve all JS and CSS minified
  */
 
 $(function () { // on document load/ready
