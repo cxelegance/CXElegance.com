@@ -1,6 +1,9 @@
 /*
  * Change Log (changelog for CXElegance.com)
  *
+ * VERSION: 2.0.3; 2019-05-29
+ *    - fix the resolution for mobile; it was displaying a desktop size
+ *
  * VERSION: 2.0.2; 2019-05-29
  *    - added the Services page
  *
