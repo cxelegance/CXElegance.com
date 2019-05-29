@@ -69,21 +69,30 @@
 // *****
 
 /*
- * Milestones for Version 2.x (major.minor, no build)
+ * Milestones for Version 2.0
  *
- *    - Version 2.01:
- *       - rid of resizing of images: use vectors
- *       - simplest form of responsive width/design: flex grid?
- *       - details should open underneath their link
- *          - scroll to top of the details container
- *          - rid of top bar
- *          - close with a finger-sized X at top , or double-click
- *          - background of page/image/colour expands vertically as needed for long details
- *       - (link to hackerrank, to codility)?
+ *    - Version 2.0.4:
+ *       - revisit the original colour schemes and be sure they're implemented correctly in the current
+ *         three pages
  *
- *    - Version 2.02:
- *       - clean, refactor, refine
+ *    - Version 2.0.5:
+ *       - general refactoring
+ *       	- rid of jQuery plugin that was made for page scrolling
+ *       	- rid of "CXEPage", but then recreate the namespace for any public-facing methods or props required
+ *       	- rid of orphaned or excess CSS
+ *       	- rid of orphaned or excess JS
+ *       	- rid of orphaned resources
+ *       - move 03_js/02_my_jquery.js to 03_js/cxe.js
+ *       - move 03_js/03_changelog.js to /changelog.txt|md or RESEARCH BEST PRACTICES for changelog
+ *          - https://keepachangelog.com/en/1.0.0/
  *       - if continuing to use LESS, then compile it and serve compiled
+ *       - serve all text resources (JS, CSS) minified
+ *
+ *    - Version 2.0.6:
+ *       - create a random colour scheme for the pages
+ *          - adjacent pages always contrast each other nicely
+ *          - text, links, and borders within are thematically predetermined
+ *          - each time the page loads, you get a random page order
  */
 
 $(function () { // on document load/ready
@@ -95,13 +104,6 @@ $(function () { // on document load/ready
 		details: $('.detail'), // where all details are kept; ENSURE NO ID's are in here because there will be duplication issues
 		detailDivClass: $('.detail_display'), // where all detail display containers are; you can stylize in CSS; look for 'CXEpage' namespaced html that is generated
 		scrollBody: $('body, html') // this probably shouldn't be an option
-	});
-
-	// our first page load is similar to a page resize
-		$.CXEpage.methods.viewport_size_changed ();
-
-	$( window ).resize( function() {
-		$.CXEpage.methods.viewport_size_changed ();
 	});
 
 	$( ".linky" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
@@ -261,14 +263,7 @@ Number.prototype.mod = function (n) {
 				});
 			},
 			_scrollTo: function (id, callback) { // id has no # in front of it
-				var that = this;
-				this.CXE.env.scrollBody.animate ( // please call this internal method with .apply (this, [id, callback])
-					{scrollTop: $('#' + id).offset ().top},
-					this.CXE.env.scrollSpeed
-				).promise ().done (function () {
-					callback ();
-					methods.internal._putEnv.apply (that, []);
-				}); // because scrollBody may be multiple elements selected
+
 			},
 			_showDetail: function (id, callback) { // id has no # in front of it
 				// it is assumed we are on correct page
@@ -559,10 +554,7 @@ Number.prototype.mod = function (n) {
 			},
 
 			scroll_popup: function ( button , amount ) {
-				var selected = $( "#popup_content" );
-				button = $( button );
-				selected.scrollTop( button.data( "scrollTop" ) + amount );
-				button.data( "scrollTop", selected.scrollTop() );
+
 			},
 
 			toggle_popup_visible: function () {
@@ -757,47 +749,16 @@ Number.prototype.mod = function (n) {
 				// one of these isn't working on fresh loads, so just use a general adjust below:  $( "#popup_content_guide_text" ).outerHeight( true ) - $( "popup_content_guide_hr" ).outerHeight( true )
 				$ ( "#popup_content" ).height ( $.CXEpage.env.g_popup_content_area_height - ( 2 * $.CXEpage.env.g_popup_content_area_border_width ) - $.CXEpage.env.g_popup_content_height_adjustor );
 
-				// scale down the scalable items
-				$( ".scalable" ).each ( function () {
-					if ( $.CXEpage.env.g_hidden ) {
-						$( this ).removeAttr( "style" ).effect ();
-						var element_width = $( this ).width();
-						var new_width = ( ( ( $.CXEpage.env.g_viewport_width * ( 1 - $.CXEpage.env.g_scaling_adjustor ) ) / element_width ) * 100 ) - 0.5;
-						if ( new_width < 100 ) {
-							new_width = Math.round( new_width );
-							$( this ).effect( "scale" , { percent: new_width , scale: 'both' } , 250 );
-						}
-					}
-					else {
-						$( this ).removeAttr( "style" ).effect ();
-					}
-				});
-
 			},
 
 			set_page_heights: function ( bool_on ) {
-				$ ( ".page" ).each ( function (i) {
-					$ ( this ).height( 'auto' ); // needed to determine natural height
-					$.CXEpage.env.g_viewport_height_min = Math.max ( $ ( this ).height() , $.CXEpage.env.g_viewport_height_min );
-				});
-				if ( bool_on ) {
-					// we want the height of all pages to be the same, max height
-					$ ( ".page" ).height ( Math.max ( $.CXEpage.env.g_viewport_height_min , $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_viewport_height_extra ) );
-				}
-				else {
-					// we want the page height to be the height of the viewport
-					$ ( ".page" ).height ( Math.max ( $ ( "#popup_content" )[0].scrollHeight + ( 2 * $.CXEpage.env.g_popup_content_area_border_width ) + $.CXEpage.env.g_popup_topdock_height + $.CXEpage.env.g_popup_content_height_adjustor , $.CXEpage.env.g_viewport_height + $.CXEpage.env.g_make_sure_scrollbar ) );
-				}
+
 			},
 
 			popup_left_set: function () {
-				$.CXEpage.env.g_popup_left = Math.round ( ( $.CXEpage.env.g_viewport_width - $ ( "#popup" ).width() ) / 2 );
-				$( "#popup" ).css( "left" , $.CXEpage.env.g_popup_left.toString() + "px" );
 			},
 
 			scroll_to_id: function ( id ) {
-				// expects id to be missing the # - it should just be the name of the ID in a string
-				$( "html,body" ).animate ( { scrollTop: $( "#" + id ).offset().top } , $.CXEpage.env.g_page_scroll_speed );
 			}
 		}
 	};

@@ -1,17 +1,36 @@
 /* CSS/LESS by CXElegance.com */
 
 /* LESS variables */
-@color_my_white:	#FFFBF5;
-@color_bridal_tuesday:	#FFF3E3;
-@color_dirty_ink:	#171006;
-@color_wispy_clouds:	#91C1E3;
-@color_birdymachine:	#2B1E0B;
-@color_creamsicle:	#FFBF66;
-@border_on: 0px; /* 1px is on, 0px is off */
+@color_my_white:        #FFFBF5;
+@color_bridal_tuesday:  #FFF3E3;
+@color_dirty_ink:       #171006;
+@color_wispy_clouds:    #91C1E3;
+@color_birdymachine:    #2B1E0B;
+@color_creamsicle:      #FFBF66;
+
+@fat:       0.04em;
+@fatter:    0.05em;
+@fatterr:   0.1em;
+@fatterrr:  0.4em;
+@cram:     -0.05em;
+@crammer:  -0.1em;
+
+@fontYanone: 'Yanone Kaffeesatz', sans-serif;
+@fontOswald: 'Oswald', sans-serif;
+@fontLobster: 'Lobster', cursive;
+
+@fontSize50: 5.0em; /* 50px */
+@fontSize40: 4.0em; /* 40px */
+@fontSize23: 2.3em; /* 23px */
+@fontSize21: 2.1em; /* 21px */
+@fontSize20: 2.0em; /* 20px */
+@fontSize18: 1.8em; /* 18px */
 
 body,html {
 	width: 100%;
 	margin: 0px 0px;
+	font-family: @fontYanone;
+	background-color: @color_my_white;
 }
 body {
 	font-size: 0.625em; /* 0.625 em x 16 px/em = 10 px  ... should be 16 px/em... this is for matching Gimp */
@@ -21,11 +40,6 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
-
-a.linky {
-	display: block;
-}
-
 #topdock {
 	width: 100%;
 	position: fixed;
@@ -39,17 +53,18 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 	margin: 2px 1px;
 	display: inline-block;
 }
-
 .page {
 	width: 100%;
-}
-.top_spacer {
-	width: 100%;
-	height: 100px;
+	padding: 100px 0 2em 0;
+	background-repeat: repeat-y;
+	background-position: center top;
+	.linkstyle {
+		color: @color_creamsicle;
+	}
 }
 .content_area {
 	width: 85%; /* 90% */
-	max-width: 1280px;
+	max-width: 1000px;
 }
 .content_area_narrower {
 	/* page1 uses this, perhaps other pages? */
@@ -63,18 +78,13 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 	width: 2%; /* this shall be calculated on resize */
 	height: 3px;
 }
-.row_content, a.row_content {
-	display: inline-block;
-	padding: 15px 0px;
-}
-.bordered {
-	border-style: dotted;
-	border-width: @border_on;
-	border-color: green;
-}
+
 .centered {
 	margin-left: auto;
 	margin-right: auto;
+}
+.flexbox {
+	display: flex;
 }
 .hideable {
 	/* will be played with on window resizes */
@@ -105,13 +115,13 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 	float: left;
 }
 .font_yanone {
-	font-family: 'Yanone Kaffeesatz', sans-serif;
+	font-family: @fontYanone;
 }
 .font_oswald {
-	font-family: 'Oswald', sans-serif;
+	font-family: @fontOswald;
 }
 .font_lobster {
-	font-family: 'Lobster', cursive;
+	font-family: @fontLobster;
 }
 .font_size_50 {
 	font-size: 5.0em; /* 50px */
@@ -119,14 +129,61 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 .font_size_40 {
 	font-size: 4.0em; /* 40px */
 }
+.font_size_23 {
+	font-size: 2.3em; /* 23px */
+}
 .font_size_21 {
 	font-size: 2.1em; /* 21px */
 }
 .font_size_20 {
 	font-size: 2.0em; /* 20px */
 }
+.font_size_18 {
+	font-size: 1.8em; /* 18px */
+}
+.colorWhite {
+	color: @color_my_white;
+}
+.fat {
+	letter-spacing: @fat;
+}
+.fatter {
+	letter-spacing: @fatter;
+}
+.fatterr {
+	letter-spacing: @fatterr;
+}
+.fatterrr {
+	letter-spacing: @fatterrr;
+}
+.cram {
+	letter-spacing: @cram;
+}
+.crammer {
+	letter-spacing: @crammer;
+}
 .linkstyle {
 	font-weight: bold;
+}
+h2 {
+	font-family: @fontYanone;
+	font-size: @fontSize23;
+	margin: 1.5em 0 0.4em 0;
+}
+h5 {
+	margin: 0;
+	border-bottom: 4px solid @color_creamsicle;
+	display: inline-block;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.detail {
+	font-size: @fontSize18;
+	border: 4px solid @color_creamsicle;
+	border-radius: 1em;
+	padding: .7em 1em 0 1em;
+	background: rgba(255, 255, 255, 0.2);
+	font-family: @fontOswald;
 }
 
 /* general layout positioning and typo tweeking */
@@ -141,17 +198,16 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 }
 #topdock>div>.floatright {
 	font-size: 5.5em; /* 55 px */
-	letter-spacing: -0.1em;
+	letter-spacing: @crammer;
 	line-height: 0.4em;
 }
 .detail_display .CXEpage_detail .close {
 	font-size: 5.0em; /* 50 px */
-	letter-spacing: -0.1em;
+	letter-spacing: @crammer;
 	line-height: 0.4em;
 	padding: 4px 9px 19px 4px;
 	position: absolute;
 	right: 0;
-	.bordered;
 }
 .detail_display .CXEpage_detail .title {
 	width: 100%;
@@ -193,34 +249,35 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 .detail_display .CXEpage_detail .content {
 	padding: 0px 16px 16px 16px;
 	font-size: 2.0em; /* 20px */
-	.bordered;
 }
 #topdock>div>.floatright>.topdock_text {
 	padding: 4px 13px 19px 10px;
+}
+a.linky {
+	font-size: @fontSize18;
+	letter-spacing: @fatter;
+	display: block;
+}
+a.linky.withHiddenDetail {
+	margin-bottom: 0.4em;
 }
 a.linky[href="#cx"] {
 	position: relative;
 	top: 17px;
 }
-
 /* row/page specific layout and tweeking */
 
 /* page1 */
 
 #page1 {
-	background-color: @color_my_white; /* .color_my_white */
-	color: @color_birdymachine; /* .color_birdymachine */
+	background-color: @color_my_white;
+	color: @color_birdymachine;
 	background-image: url('../01_pics/05_page1_bg.png');
-	background-repeat: no-repeat;
-	background-position: center top;
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #row1,#row3,#row4 {
 	/* for the home page links */
 	font-size: 2.0em; /* 20px */
-	letter-spacing: 0.05em;
+	letter-spacing: @fatter;
 }
 #row3,#row4 {
 	padding-top: 29px;
@@ -233,28 +290,20 @@ a.linky[href="#cx"] {
 	text-align: center;
 	font-size: 2.1em; /* 21px */
 }
-#row2>.font_oswald>div:nth-child(1) {
-	/* for "web and tech services" */
-	letter-spacing: 0.1em;
-}
-#row2>.font_oswald>div:nth-child(2) {
-	/* for "the client experience" */
-	letter-spacing: 0.4em;
-}
-#row2>div>.font_lobster {
+.logo {
 	/* for CXElegance logo */
 	font-size: 8.1em; /* 81px */
 	max-height: 120px;
 }
 #row2>div>div:nth-child(2) {
 	width: 100%;
-	>img {
-		/* for CXunderline graphic */
-		max-width: 100%;
-		position:relative;
-		top: -20px;
-		}
-	}
+}
+img#underline {
+	/* for CXunderline graphic */
+	max-width: 100%;
+	position:relative;
+	top: -20px;
+}
 .CXunderline {
 	/* may not be using this, may be selecting the img under the row # */
 	background-image: url('../01_pics/04_underline.png');
@@ -270,11 +319,6 @@ a.linky[href="#cx"] {
 	background-color: @color_wispy_clouds;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/06_page2_bg.png');
-	background-repeat: no-repeat;
-	background-position: center top;
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page2 #row6 {
 	padding-top: 24px;
@@ -290,17 +334,6 @@ a.linky[href="#cx"] {
 			color: @color_my_white;
 			.font_oswald;
 			.font_size_21;
-		}
-		>a.linky {
-			margin-left: 45%;
-			display: inline-block;
-			>span {
-				/* the read more text */
-				.font_yanone;
-				.font_size_20;
-				letter-spacing: 0.05em;
-				padding-top: 7px;
-			}
 		}
 	}
 }
@@ -328,11 +361,6 @@ a.linky[href="#cx"] {
 	background-color: @color_my_white;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/07_page3_bg.png');
-	background-repeat: no-repeat;
-	background-position: center top;
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page3 #row9 {
 	padding-top: 22px;
@@ -358,7 +386,7 @@ a.linky[href="#cx"] {
 			/* job title */
 			.font_oswald;
 			font-size: 1.7em; /* 17px */
-			letter-spacing: -0.05em;
+			letter-spacing: @cram;
 			padding-top: 15px;
 		}
 		>div:nth-child(3) {
@@ -366,15 +394,6 @@ a.linky[href="#cx"] {
 			.font_oswald;
 			font-size: 1.3em; /* 13px */
 			padding: 7px 0px 7px 0px;
-		}
-		>a.linky {
-			text-align: right;
-			>span {
-				/* the read more text */
-				.font_yanone;
-				.font_size_20;
-				letter-spacing: 0.05em;
-			}
 		}
 	}
 }
@@ -508,10 +527,7 @@ a.linky[href="#cx"] {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>a.linky {
-					/* "read more" link */
-					color: @color_my_white;
-				}
+
 			}
 		}
 	}
@@ -523,9 +539,6 @@ a.linky[href="#cx"] {
 	background-color: @color_bridal_tuesday;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/13_page5_bg.png');
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page5 .row {
 	>div:nth-child(2) {
@@ -543,10 +556,7 @@ a.linky[href="#cx"] {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>a.linky {
-					/* "read more" link */
-					color: @color_wispy_clouds;
-				}
+
 			}
 		}
 	}
@@ -558,9 +568,6 @@ a.linky[href="#cx"] {
 	background-color: @color_birdymachine;
 	color: @color_bridal_tuesday;
 	background-image: url('../01_pics/14_page6_bg.png');
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page6 .row {
 	>div:nth-child(2) {
@@ -578,10 +585,7 @@ a.linky[href="#cx"] {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>a.linky {
-					/* "read more" link */
-					color: @color_wispy_clouds;
-				}
+
 			}
 		}
 	}
@@ -593,9 +597,6 @@ a.linky[href="#cx"] {
 	background-color: @color_wispy_clouds;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/15_page7_bg.png');
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page7 .row {
 	>div:nth-child(2) {
@@ -613,11 +614,41 @@ a.linky[href="#cx"] {
 		}
 		>div:nth-child(2),>div:nth-child(3),>div:nth-child(4) {
 			>div:nth-child(2) {
-				>a.linky {
-					/* "read more" link */
-					color: @color_bridal_tuesday;
-				}
+
 			}
 		}
+	}
+}
+.scalable {
+	transform: none;
+}
+@media (max-width: 374px){
+	.scalable {
+		transform: scale(.62) translateX(-110px);
+	}
+}
+@media (min-width: 375px) and (max-width: 400px){
+	.scalable {
+		transform: scale(.68) translateX(-84px);
+	}
+}
+@media (min-width: 401px) and (max-width: 500px){
+	.scalable {
+		transform: scale(.76) translateX(-57px);
+	}
+}
+@media (min-width: 501px) and (max-width: 525px){
+	.scalable {
+		transform: scale(.8) translateX(-45px);
+	}
+}
+@media (min-width: 526px) and (max-width: 550px){
+	.scalable {
+		transform: scale(.85) translateX(-32px);
+	}
+}
+@media (max-width: 550px){
+	.centerWhenSkinny {
+		text-align: center;
 	}
 }

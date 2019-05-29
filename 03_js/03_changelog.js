@@ -1,6 +1,17 @@
 /*
  * Change Log (changelog for CXElegance.com)
  *
+ * VERSION: 2.0.3; 2019-05-29
+ *    - fix the resolution for mobile; it was displaying a desktop size
+ *
+ * VERSION: 2.0.2; 2019-05-29
+ *    - added the Services page
+ *
+ * VERSION: 2.0.1; 2019-05-29
+ *    - corrected the resizing of "scalable" elements – specifically the main logo
+ *    - switched responsive elements to flexbox
+ *    - removed all click-for-more-details functionality; opted for vertical scrolling through all visible content
+ *
  * VERSION: 2.0; 2019-04-23
  *    - rid of all bottom stuff: bio through toolkit
  *    - rid of top nav bar
