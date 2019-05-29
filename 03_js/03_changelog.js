@@ -1,6 +1,9 @@
 /*
  * Change Log (changelog for CXElegance.com)
  *
+ * VERSION: 2.0.4; 2019-05-29
+ *    - no changes, simply messed up the tags and releases in github
+ *
  * VERSION: 2.0.3; 2019-05-29
  *    - fix the resolution for mobile; it was displaying a desktop size
  *
