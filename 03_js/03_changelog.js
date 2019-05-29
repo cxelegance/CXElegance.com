@@ -1,6 +1,9 @@
 /*
  * Change Log (changelog for CXElegance.com)
  *
+ * VERSION: 2.0.2; 2019-05-29
+ *    - added the Services page
+ *
  * VERSION: 2.0.1; 2019-05-29
  *    - corrected the resizing of "scalable" elements – specifically the main logo
  *    - switched responsive elements to flexbox

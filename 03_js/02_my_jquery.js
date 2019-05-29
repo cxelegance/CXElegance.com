@@ -71,16 +71,11 @@
 /*
  * Milestones for Version 2.0
  *
- *    - Version 2.0.2:
- *       - after the mission statements: How can CXElegance help you?
- *          - perhaps do this on another .page with its own colour scheme (see original website design)
- *          - go with questions, stick with the voice of the mission statements
- *             - Do you need a skilled hand to develop a module in your project?
- *             - Do you want to find your data quickly?
- *             - Do you want painless, reliable backups?
- *             - Do you want to learn to code web apps?
- *
  *    - Version 2.0.3:
+ *       - revisit the original colour schemes and be sure they're implemented correctly in the current
+ *         three pages
+ *
+ *    - Version 2.0.4:
  *       - general refactoring
  *       	- rid of jQuery plugin that was made for page scrolling
  *       	- rid of "CXEPage", but then recreate the namespace for any public-facing methods or props required
@@ -92,6 +87,12 @@
  *          - https://keepachangelog.com/en/1.0.0/
  *       - if continuing to use LESS, then compile it and serve compiled
  *       - serve all text resources (JS, CSS) minified
+ *
+ *    - Version 2.0.4:
+ *       - create a random colour scheme for the pages
+ *          - adjacent pages always contrast each other nicely
+ *          - text, links, and borders within are thematically predetermined
+ *          - each time the page loads, you get a random page order
  */
 
 $(function () { // on document load/ready

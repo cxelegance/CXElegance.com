@@ -56,6 +56,11 @@ a.topdock_text, .detail_display .CXEpage_detail .close {
 .page {
 	width: 100%;
 	padding: 100px 0 2em 0;
+	background-repeat: repeat-y;
+	background-position: center top;
+	.linkstyle {
+		color: @color_creamsicle;
+	}
 }
 .content_area {
 	width: 85%; /* 90% */
@@ -260,14 +265,6 @@ a.linky[href="#cx"] {
 	position: relative;
 	top: 17px;
 }
-
-.page {
-	background-repeat: repeat-y;
-	background-position: center top;
-	.linkstyle {
-		color: @color_creamsicle;
-	}
-}
 /* row/page specific layout and tweeking */
 
 /* page1 */
@@ -364,11 +361,6 @@ img#underline {
 	background-color: @color_my_white;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/07_page3_bg.png');
-	background-repeat: no-repeat;
-	background-position: center top;
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page3 #row9 {
 	padding-top: 22px;
@@ -547,9 +539,6 @@ img#underline {
 	background-color: @color_bridal_tuesday;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/13_page5_bg.png');
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page5 .row {
 	>div:nth-child(2) {
@@ -579,9 +568,6 @@ img#underline {
 	background-color: @color_birdymachine;
 	color: @color_bridal_tuesday;
 	background-image: url('../01_pics/14_page6_bg.png');
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page6 .row {
 	>div:nth-child(2) {
@@ -611,9 +597,6 @@ img#underline {
 	background-color: @color_wispy_clouds;
 	color: @color_birdymachine;
 	background-image: url('../01_pics/15_page7_bg.png');
-	.linkstyle {
-		color: @color_creamsicle;
-	}
 }
 #page7 .row {
 	>div:nth-child(2) {
