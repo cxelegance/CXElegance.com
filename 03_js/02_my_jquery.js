@@ -74,6 +74,7 @@
  *    - Version 2.0.5:
  *       - revisit the original colour schemes and be sure they're implemented correctly in the current
  *         three pages
+ *       - add service: copy editing for website
  *
  *    - Version 2.0.6:
  *       - general refactoring
