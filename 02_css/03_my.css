@@ -258,13 +258,6 @@ a.linky {
 	letter-spacing: @fatter;
 	display: block;
 }
-a.linky.withHiddenDetail {
-	margin-bottom: 0.4em;
-}
-a.linky[href="#cx"] {
-	position: relative;
-	top: 17px;
-}
 /* row/page specific layout and tweeking */
 
 /* page1 */
