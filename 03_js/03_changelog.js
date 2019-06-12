@@ -1,6 +1,13 @@
 /*
  * Change Log (changelog for CXElegance.com)
  *
+ * VERSION 2.2.2; 2019-06-12
+  *   - added copy to explain that CXElegance is a sole trading entity, not an organization
+  *   - added service: copy editing for websites
+  *   - general copy refinement in services section
+  *   - bugfix: links not working
+  *   - bugfix: fix top margins of detal blocks
+  *
  * VERSION: 2.2.1; 2019-05-29
  *    - fix the resolution for mobile; it was displaying a desktop size
  *
