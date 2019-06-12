@@ -184,6 +184,9 @@ h5 {
 	padding: .7em 1em 0 1em;
 	background: rgba(255, 255, 255, 0.2);
 	font-family: @fontOswald;
+	>*{
+		margin-top: 0;
+	}
 }
 
 /* general layout positioning and typo tweeking */
@@ -257,13 +260,6 @@ a.linky {
 	font-size: @fontSize18;
 	letter-spacing: @fatter;
 	display: block;
-}
-a.linky.withHiddenDetail {
-	margin-bottom: 0.4em;
-}
-a.linky[href="#cx"] {
-	position: relative;
-	top: 17px;
 }
 /* row/page specific layout and tweeking */
 

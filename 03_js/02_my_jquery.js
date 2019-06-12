@@ -71,12 +71,9 @@
 /*
  * Milestones for Version 2.0
  *
- *    - Version 2.2.2:
+ *    - Version 2.2.3:
  *       - revisit the original colour schemes and be sure they're implemented correctly in the current
  *         three pages
- *       - add service: copy editing for website
- *
- *    - Version 2.2.3:
  *       - general refactoring
  *       	- rid of jQuery plugin that was made for page scrolling
  *       	- rid of "CXEPage", but then recreate the namespace for any public-facing methods or props required
@@ -105,31 +102,6 @@ $(function () { // on document load/ready
 		details: $('.detail'), // where all details are kept; ENSURE NO ID's are in here because there will be duplication issues
 		detailDivClass: $('.detail_display'), // where all detail display containers are; you can stylize in CSS; look for 'CXEpage' namespaced html that is generated
 		scrollBody: $('body, html') // this probably shouldn't be an option
-	});
-
-	$( ".linky" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
-		event.preventDefault ();
-		$('body').CXEpage ('goTo', {
-			page: { // I dunno if this is a page link or a detail link
-				URL: $(this).attr ('href').substr (1)
-			},
-			detail: {
-				URL: $(this).attr ('href').substr (1)
-			}//,
-			//callback: function () {console.log ('linky was actioned');}
-		});
-	});
-
-	$( ".linkyhome" ). click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
-		event.preventDefault ();
-		$('body').CXEpage ('goTo', {
-			page: { // I dunno if this is a page link or a detail link
-				num: 0
-			},
-			detail: {
-				URL: $(this).attr ('href').substr (1)
-			}//,
-		});
 	});
 
 	$( "#next" ).click ( function (event) { // TODO: should be an event listener within the CXEpage jQuery plugin
@@ -530,8 +502,8 @@ Number.prototype.mod = function (n) {
 		methods: {
 
 			animate_guiding_links: function () {
-				$( "#next,#back,a.linky" ).animate ( { backgroundColor : $.CXEpage.env.g_guiding_link_color } , $.CXEpage.env.g_guiding_links_speed , function () {
-					$( "#next,#back,a.linky" ).removeAttr ( "style" ).animate ();
+				$( "#next,#back" ).animate ( { backgroundColor : $.CXEpage.env.g_guiding_link_color } , $.CXEpage.env.g_guiding_links_speed , function () {
+					$( "#next,#back" ).removeAttr ( "style" ).animate ();
 				 });
 			},
 
