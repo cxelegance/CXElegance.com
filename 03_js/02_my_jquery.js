@@ -72,12 +72,14 @@
  * Milestones for Version 2.0
  *
  *    - Version 2.2.2:
- *       - revisit the original colour schemes and be sure they're implemented correctly in the current
- *         three pages
+ *    	 - add copy to explain that CXElegance is a sole trading entity, not an organization
  *       - add service: copy editing for website
  *       - bugfix: links not working
+ *       - bugfix: fix top margins of detal blocks
  *
  *    - Version 2.2.3:
+ *       - revisit the original colour schemes and be sure they're implemented correctly in the current
+ *         three pages
  *       - general refactoring
  *       	- rid of jQuery plugin that was made for page scrolling
  *       	- rid of "CXEPage", but then recreate the namespace for any public-facing methods or props required
