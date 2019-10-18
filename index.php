@@ -1,5 +1,6 @@
 <?php
 $isHTTPS = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' && !empty($_SERVER['HTTPS']);
+?>
 
 <!DOCTYPE HTML>
 <html>
