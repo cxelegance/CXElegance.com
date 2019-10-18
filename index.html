@@ -1,3 +1,6 @@
+<?php
+$isHTTPS = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' && !empty($_SERVER['HTTPS']);
+
 <!DOCTYPE HTML>
 <html>
 
@@ -19,7 +22,7 @@
 	<link rel="apple-touch-icon" href="01_pics/12_iphone.png">
 
 	<!-- load my google fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz|Oswald|Lobster' rel='stylesheet' type='text/css'>
+	<link href='<?php $isHTTPS ? "https" : "http" ?>://fonts.googleapis.com/css?family=Yanone+Kaffeesatz|Oswald|Lobster' rel='stylesheet' type='text/css'>
 
 	<!-- favicon -->
 	<link rel="icon" href="favicon.png" sizes="16x16" type="image/png">
