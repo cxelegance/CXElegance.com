@@ -1,4 +1,7 @@
 {
 	"version": "2.2.2",
-	"name": "cxelegance/website"
+	"name": "cxelegance/website",
+	"require": {
+        "monolog/monolog": "1.0.*"
+    }
 }
