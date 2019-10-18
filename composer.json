@@ -1,5 +1,8 @@
 {
 	"require": {
 		"php": "7.*"
+	},
+	"jesseNotes": {
+		"pushApp": "git push <remote, e.g heroku> <local branch name>:<remote branch name, e.g. master>"
 	}
 }
