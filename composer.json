@@ -4,5 +4,7 @@
 	},
 	"jesseNotes": {
 		"pushApp": "git push <remote, e.g heroku> <local branch name>:<remote branch name, e.g. master>"
-	}
+	},
+	"version": "2.2.2",
+	"name": "cxelegance/website"
 }
