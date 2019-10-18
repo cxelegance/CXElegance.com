@@ -1,2 +1,5 @@
 sync.py
 **/.DS_Store
+composerInstaller.php
+composer
+vendor/
