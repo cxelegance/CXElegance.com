@@ -5,7 +5,9 @@
 //TODO: recreate the app at Heroku
 //TODO: git push --set-upstream https://git.heroku.com/<insert the new name here> heroku:master
 //TODO: be sure that versioning is working when building; I don't want it autoincremented.
-$isHTTPS = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' && !empty($_SERVER['HTTPS']);
+//check phpinfo() for what env vars are available
+$isHTTPS = isset($_SERVER['HTTP_X_FORWARDED_PROTO']);
+$isHTTPS = $isHTTPS && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https';
 ?>
 
 <!DOCTYPE HTML>
