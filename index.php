@@ -1,10 +1,4 @@
 <?php
-
-//TODO: get this working; find out where this ENV var is and sense http/s
-//TODO: find all hardcoded http/s and put in the sensed version.
-//TODO: recreate the app at Heroku
-//TODO: git push --set-upstream https://git.heroku.com/<insert the new name here> heroku:master
-//TODO: be sure that versioning is working when building; I don't want it autoincremented.
 //check phpinfo() for what env vars are available
 $isHTTPS = isset($_SERVER['HTTP_X_FORWARDED_PROTO']);
 $isHTTPS = $isHTTPS && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https';
