@@ -3,9 +3,11 @@
 		"php": "7.*"
 	},
 	"jesseNotes": {
-		"pushApp": "git push <remote, e.g heroku> <local branch name>:<remote branch name, e.g. master>"
+		"pushApp": "git push <remote, e.g heroku> <local branch name>:<remote branch name, e.g. master>",
 		"altPushApp": "git push --set-upstream https://git.heroku.com/<insert Heroku app name here.git> <local branch name>:<remote branch name, e.g. master>"
 	},
-	"version": "2.2.2",
-	"name": "cxelegance/website"
+	"name": "cxelegance/cxelegance",
+	"description": "This is the website for cxelegance.com.",
+	"type": "project",
+	"homepage": "cxelegance.com"
 }
