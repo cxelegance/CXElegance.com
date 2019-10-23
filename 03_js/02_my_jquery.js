@@ -71,7 +71,7 @@
 /*
  * Milestones for Version 2.0
  *
- *    - Version 2.2.3:
+ *    - Version 2.2.4:
  *       - revisit the original colour schemes and be sure they're implemented correctly in the current
  *         three pages
  *       - general refactoring
@@ -86,7 +86,7 @@
  *       - if continuing to use LESS, then compile it and serve compiled
  *       - serve all text resources (JS, CSS) minified
  *
- *    - Version 2.2.4:
+ *    - Version 2.2.5:
  *       - create a random colour scheme for the pages
  *          - adjacent pages always contrast each other nicely
  *          - text, links, and borders within are thematically predetermined
