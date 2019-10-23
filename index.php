@@ -2,7 +2,8 @@
 
 //TODO: get this working; find out where this ENV var is and sense http/s
 //TODO: find all hardcoded http/s and put in the sensed version.
-//TODO: recreate the app at Heroku and git branch --set-upstream-to=https://git.heroku.com/<insert the new name here>
+//TODO: recreate the app at Heroku
+//TODO: git push --set-upstream https://git.heroku.com/<insert the new name here> heroku:master
 //TODO: be sure that versioning is working when building; I don't want it autoincremented.
 $isHTTPS = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' && !empty($_SERVER['HTTPS']);
 ?>
